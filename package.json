@@ -1,0 +1,26 @@
+{
+    "name": "gherkin-language-support",
+    "displayName": "Gherkin Language support",
+    "description": "Language server for Gherkin/Cucumber .feature files",
+    "version": "0.0.1",
+    "publisher": "iteratec-gmbh",
+    "engines": {
+        "vscode": "^1.25.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "gherkin",
+            "aliases": ["Gherkin", "gherkin"],
+            "extensions": [".feature"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "gherkin",
+            "scopeName": "text.cucumber.gherkin",
+            "path": "./syntaxes/gherkin.tmLanguage.json"
+        }]
+    }
+}
