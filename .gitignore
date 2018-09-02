@@ -1,2 +1,11 @@
 node_modules
 *.vsix
+*.log
+
+.nyc_output
+coverage
+dist
+
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json

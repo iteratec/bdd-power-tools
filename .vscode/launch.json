@@ -6,13 +6,50 @@
 	"version": "0.2.0",
     "configurations": [
         {
-            "name": "Extension",
+            "name": "Launch Client",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
+            ],
+            "stopOnEntry": false,
+            "outFiles": [
+              "${workspaceFolder}/dist/client/**/*.js"
+            ],
+            "preLaunchTask": "npm: watch:client"
+        },
+        {
+          "name": "Attach to Server",
+          "type": "node",
+          "request": "attach",
+          "address": "localhost",
+          "protocol": "inspector",
+          "port": 6009,
+          "outFiles": [
+            "${workspaceFolder}/dist/server/**/*.js"
+          ]
+        },
+        {
+          "name": "Language Server E2E Test",
+          "type": "extensionHost",
+          "request": "launch",
+          "runtimeExecutable": "${execPath}",
+          "args": [
+            "--extensionDevelopmentPath=${workspaceFolder}",
+            "--extensionTestPath=${worspaceFolder}/dist/client",
+            "${workspaceFolder}/src/client/testFixture"
+          ],
+          "stopOnEntry": false,
+          "outFiles": [
+            "${workspaceFolder}/dist/client/**/*.js"
+          ]
         }
+    ],
+    "compounds": [
+      {
+        "name": "Client + Server",
+        "configurations": [ "Launch Client", "Attach to Server"]
+      }
     ]
 }
