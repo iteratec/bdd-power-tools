@@ -11,7 +11,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    // console.log('Congratulations, your extension "gherkin-language-support" is now active!');
+    // tslint:disable-next-line:no-console
+    console.log('Congratulations, your extension "BDD-Power-Tools" is now active!');
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
@@ -40,12 +41,19 @@ export function activate(context: vscode.ExtensionContext) {
     };
 
     const clientOptions: LanguageClientOptions = {
-      documentSelector: [{scheme: 'file', language: 'gherkin'}],
+      documentSelector: [
+        {scheme: 'file', language: 'gherkin'},
+        {scheme: 'untitled', language: 'gherkin'},
+      ],
       synchronize: {
         fileEvents: vscode.workspace.createFileSystemWatcher('**/*.feature'),
       },
     };
-    client = new LanguageClient('gherkin', 'Gherkin', serverOptions, clientOptions);
+    client = new LanguageClient('bdd-power-tools.gherkin-server',
+                                'BDD-Power-Tools - Gherkin Server',
+                                serverOptions,
+                                clientOptions);
+    client.start();
 }
 
 // this method is called when your extension is deactivated

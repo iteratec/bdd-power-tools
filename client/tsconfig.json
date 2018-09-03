@@ -1,28 +1,23 @@
 {
+  "extends": "../tsconfig.base.json",
     "compilerOptions": {
-        "composite": true,
+        // "composite": true,
         "declaration": true,
         "declarationMap": true,
-        "module": "commonjs",
-        "target": "es2017",
-        "outDir": "../../dist/client",
-        "lib": [
-            "es6"
-        ],
-        "sourceMap": true,
+        // "module": "commonjs",
+        // "target": "es2017",
+        "outDir": "out",
+        // "lib": ["es6"],
+        // "sourceMap": true,
         "rootDir": "src",
         /* Strict Type-Checking Option */
-        "strict": true,   /* enable all strict type-checking options */
+        // "strict": true,   /* enable all strict type-checking options */
         /* Additional Checks */
-        "noUnusedLocals": true /* Report errors on unused locals. */
+        // "noUnusedLocals": true /* Report errors on unused locals. */
         // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
         // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
         // "noUnusedParameters": true,  /* Report errors on unused parameters. */
     },
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "src/**/*.spec.ts"
-    ]
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/*.spec.ts"]
 }

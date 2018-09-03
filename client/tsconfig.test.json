@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "out",
+        "rootDir": "src",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.spec.ts"
+    ]
+}

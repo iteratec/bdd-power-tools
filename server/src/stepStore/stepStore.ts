@@ -7,10 +7,14 @@ export class StepStore {
   public When: string[] = [];
   public Then: string[] = [];
 
-  constructor(private featuresGlob: string) {}
+  public featureFiles: string[] = [];
 
-  public fill(): PromiseLike<void> {
-    return glob(this.featuresGlob).then((featureFiles: string[]) => {
+  public initialize(featuresGlob: string): PromiseLike<void> {
+    this.Given = [];
+    this.When = [];
+    this.Then = [];
+    return glob(featuresGlob).then((featureFiles: string[]) => {
+      this.featureFiles = featureFiles;
       featureFiles.forEach(file => {
         const filecontent = fs.readFileSync(file, 'utf-8');
         let matches = filecontent.match(/^\s*(?:Angenommen) (.*)$/mg);

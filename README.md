@@ -1,4 +1,4 @@
-# gherkin-language-support README
+# BDD Power Tools
 
 This is the README for your extension "gherkin-language-support". After writing up a brief description, we recommend including the following sections.
 

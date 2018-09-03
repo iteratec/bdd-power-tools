@@ -1,10 +1,20 @@
 {
-    "name": "gherkin",
-    "displayName": "Gherkin Language support",
-    "description": "Language server for Cucumber/Gherkin specs",
+    "name": "bdd-power-tools",
+    "displayName": "BDD-Power-Tools",
+    "description": "Autocompletion, syntax highlighting for .feature-files and stepdefinitions",
     "version": "1.0.0-semantically-released",
+    "keywords": [
+      "gherkin",
+      "cucumber",
+      "bdd"
+    ],
+    "author": "Christoph Murczek <christoph.murczek@iteratec.at>",
+    "contributors": [
+
+    ],
+    "license": "MIT",
     "publisher": "iteratec-gmbh",
-    "main": "src/client/extension",
+    "main": "./client/out/extension",
     "engines": {
         "vscode": "^1.25.0"
     },
@@ -15,6 +25,18 @@
         "onLanguage:gherkin"
     ],
     "contributes": {
+        "configuration": {
+            "title": "BDD-Power-Tools Configuration",
+            "type": "object",
+            "properties": {
+                "bddPowerTools.featureGlob": {
+                    "scope": "resource",
+                    "type": "string",
+                    "default": "features/**/*.feature",
+                    "description": "A glob specifying the feature files in this workspace."
+                }
+            }
+        },
         "languages": [
             {
                 "id": "gherkin",
@@ -36,9 +58,7 @@
             }
         ]
     },
-    "dependencies": {
-        "vscode": "^1.1.18"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/chai": "^4.1.4",
         "@types/chai-as-promised": "^7.1.0",
@@ -55,15 +75,18 @@
         "mocha": "^5.2.0",
         "semantic-release": "^15.9.3",
         "ts-node": "^7.0.1",
-        "typescript": "^3.0.1",
+        "typescript": "^3.0.3",
         "tslint": "^5.11.0"
     },
     "scripts": {
-        "build": "npm run build:client",
-        "build:client": "tsc --build --clean",
-        "postbuild": "cpx package.json dist/ && cpx package-lock.json dist/",
+        "build": "npm run build:client && npm run build:server",
+        "build:client": "tsc -p client/tsconfig.json",
+        "build:server": "tsc -p server/tsconfig.json",
+        "watch:client": "tsc -w -p client/tsconfig.json",
+        "watch:server": "tsc -w -p server/tsconfig.json",
+        "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
         "commit": "git-cz",
-        "test": "mocha -r chai -r chai-as-promised -r ts-node/register src/**/*.spec.ts"
+        "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts"
     },
     "config": {
         "commitizen": {
