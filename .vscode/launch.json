@@ -47,11 +47,5 @@
             "${workspaceFolder}/client/out/**/*.js"
           ]
         }
-    ],
-    "compounds": [
-      {
-        "name": "Client + Server",
-        "configurations": ["Launch Client", "Attach to Server"],
-      }
     ]
 }

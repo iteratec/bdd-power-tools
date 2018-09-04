@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
       },
     };
     client = new LanguageClient('bdd-power-tools.gherkin-server',
-                                'BDD-Power-Tools - Gherkin Server',
+                                'BDD-Power-Tools',
                                 serverOptions,
                                 clientOptions);
     client.start();

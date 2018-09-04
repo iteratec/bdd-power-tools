@@ -23,14 +23,12 @@ let hasWorkspaceFolderCapability: boolean = false;
 
 const defaultSettings: BddPowerToolsSettings = { featureGlob: 'features/**/*.feature' };
 let globalSettings = defaultSettings;
-const documentSettings: Map<string, Thenable<BddPowerToolsSettings>> = new Map();
 let stepStore: StepStore;
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities;
   hasConfigurationCapability = capabilities.workspace! && !!capabilities.workspace!.configuration;
   hasWorkspaceFolderCapability = capabilities.workspace! && !!capabilities.workspace!.workspaceFolders;
-
   stepStore = new StepStore();
   return {
     capabilities: {
@@ -54,7 +52,6 @@ connection.onInitialized(() => {
   stepStore.initialize(globalSettings.featureGlob).then(() => {
     connection.console.info(`Then: ${stepStore.Then.join(' | ')}`);
   });
-  connection.console.info(documents.keys().join(', '));
 });
 
 connection.onDidChangeConfiguration(change => {
@@ -69,16 +66,12 @@ connection.onDidChangeWatchedFiles(change => {
 });
 
 connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[] => {
-  connection.console
-    .info(`Completion requested in ${txtDocPos.textDocument.uri}` + ' ' +
-          `at ${txtDocPos.position.line}/${txtDocPos.position.character}`);
   const doc = documents.get(txtDocPos.textDocument.uri);
   let suggestion: CompletionItem[] = [];
   if (doc) {
     const lineToPos = doc.getText(Range.create(Position.create(txtDocPos.position.line, 0), txtDocPos.position));
     const match = /\s*\b(Angenommen|Wenn|Dann)\b/.exec(lineToPos);
     const keyword = match ? match[1] : '';
-    connection.console.info(`Keyword: ${keyword}`);
     switch (keyword) {
       case 'Angenommen': {
         suggestion = stepStore.Given.map(s => {
@@ -127,17 +120,15 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
       }
     }
   }
-  connection.console.info(suggestion.join(' | '));
   return suggestion;
 });
 
-documents.onDidChangeContent(change => {
-  connection.console.info(change.document.getText());
-});
+// documents.onDidChangeContent(change => {
+// });
 
-documents.onDidClose(e => {
-  documentSettings.delete(e.document.uri);
-});
+// documents.onDidClose(e => {
+//   documentSettings.delete(e.document.uri);
+// });
 
 documents.listen(connection);
 connection.listen();
