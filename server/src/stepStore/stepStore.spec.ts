@@ -34,6 +34,13 @@ describe('StepStore', function() {
     });
   });
 
+  it('should filter out duplicates', function() {
+    const actual = new StepStore();
+    return actual.initialize(__dirname + '/features/de/**/*.feature').then(() => {
+      expect(actual.Given.length).to.equal(1);
+    });
+  });
+
   xit('should add all And steps', function() {
     const actual = new StepStore();
     return actual.initialize(__dirname + '/features/de/**/*.feature').then(() => function() {

@@ -18,15 +18,15 @@ export class StepStore {
       featureFiles.forEach(file => {
         const filecontent = fs.readFileSync(file, 'utf-8');
         let matches = filecontent.match(/^\s*(?:Angenommen) (.*)$/mg);
-        if (matches) {
+        if (matches && !this.Given.find(g => g === RegExp.$1)) {
           this.Given.push(RegExp.$1);
         }
         matches = filecontent.match(/^\s*(?:Wenn) (.*)$/mg);
-        if (matches) {
+        if (matches && !this.When.find(w => w === RegExp.$1)) {
           this.When.push(RegExp.$1);
         }
         matches = filecontent.match(/^\s*(?:Dann) (.*)$/mg);
-        if (matches) {
+        if (matches && !this.Then.find(t => t === RegExp.$1)) {
           this.Then.push(RegExp.$1);
         }
       });
