@@ -105,18 +105,19 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
             label: s,
           } as CompletionItem;
         });
+        break;
       }
       default: {
         suggestion = [
-          'Funktionalität:',
-          'Szenario:',
-          'Grundlage',
-          'Angenommen',
-          'Wenn',
-          'Dann',
-          'Und',
-          'Aber',
-          'Beispiele'].map(kw => {
+          'Funktionalität: ',
+          'Szenario: ',
+          'Grundlage ',
+          'Angenommen ',
+          'Wenn ',
+          'Dann ',
+          'Und ',
+          'Aber ',
+          'Beispiele: '].map(kw => {
             return {
               kind: CompletionItemKind.Keyword,
               label: kw,
