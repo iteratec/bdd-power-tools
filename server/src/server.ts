@@ -21,7 +21,7 @@ const documents: TextDocuments = new TextDocuments();
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 
-const defaultSettings: BddPowerToolsSettings = { featurePath: 'features/**/*.feature' };
+const defaultSettings: BddPowerToolsSettings = { featureGlob: 'features/**/*.feature' };
 let globalSettings = defaultSettings;
 const documentSettings: Map<string, Thenable<BddPowerToolsSettings>> = new Map();
 let stepStore: StepStore;
@@ -44,33 +44,22 @@ connection.onInitialize((params: InitializeParams) => {
 
 connection.onInitialized(() => {
   if (hasConfigurationCapability) {
-    connection.client.register(DidChangeConfigurationNotification.type, undefined);
+    connection.client.register(DidChangeConfigurationNotification.type, {section: 'bddPowerTools'});
   }
   if (hasWorkspaceFolderCapability) {
     connection.workspace.onDidChangeWorkspaceFolders(workspaceFolderChangedEvent => {
       connection.console.info('WorkspacefolderChanged event received');
     });
   }
-  stepStore.initialize(globalSettings.featurePath).then(() => {
-    connection.console.info(`found ${stepStore.featureFiles.join(', ')} in ${globalSettings.featurePath}`);
-    connection.console.info(`Given: ${stepStore.Given.join(' | ')}`);
-    connection.console.info(`When: ${stepStore.When.join(' | ')}`);
+  stepStore.initialize(globalSettings.featureGlob).then(() => {
     connection.console.info(`Then: ${stepStore.Then.join(' | ')}`);
   });
   connection.console.info(documents.keys().join(', '));
 });
 
 connection.onDidChangeConfiguration(change => {
-  connection.console.log(change.settings);
-  if (hasConfigurationCapability) {
-    documentSettings.clear();
-  } else {
-    globalSettings = ((change.settings.gherkinSettings || defaultSettings)) as BddPowerToolsSettings;
-  }
-  stepStore.initialize(globalSettings.featurePath).then(() => {
-    connection.console.info(`found ${stepStore.featureFiles.join(', ')} in ${globalSettings.featurePath}`);
-    connection.console.info(`Given: ${stepStore.Given.join(' | ')}`);
-    connection.console.info(`When: ${stepStore.When.join(' | ')}`);
+  globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
+  stepStore.initialize(globalSettings.featureGlob).then(() => {
     connection.console.info(`Then: ${stepStore.Then.join(' | ')}`);
   });
 });

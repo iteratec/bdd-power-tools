@@ -1,3 +1,3 @@
 export interface BddPowerToolsSettings {
-  featurePath: string;
+  featureGlob: string;
 }
