@@ -50,14 +50,14 @@ connection.onInitialized(() => {
     });
   }
   stepStore.initialize(globalSettings.featureGlob).then(() => {
-    connection.console.info(`Then: ${stepStore.Then.join(' | ')}`);
+    connection.console.info(`Given: ${stepStore.Given.join(' | ')}`);
   });
 });
 
 connection.onDidChangeConfiguration(change => {
   globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
   stepStore.initialize(globalSettings.featureGlob).then(() => {
-    connection.console.info(`Then: ${stepStore.Then.join(' | ')}`);
+    connection.console.info(`Given: ${stepStore.Given.join(' | ')}`);
   });
 });
 

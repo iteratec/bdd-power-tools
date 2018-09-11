@@ -17,17 +17,48 @@ export class StepStore {
       this.featureFiles = featureFiles;
       featureFiles.forEach(file => {
         const filecontent = fs.readFileSync(file, 'utf-8');
-        let matches = filecontent.match(/^\s*(?:Angenommen) (.*)$/mg);
-        if (matches && !this.Given.find(g => g === RegExp.$1)) {
-          this.Given.push(RegExp.$1);
-        }
-        matches = filecontent.match(/^\s*(?:Wenn) (.*)$/mg);
-        if (matches && !this.When.find(w => w === RegExp.$1)) {
-          this.When.push(RegExp.$1);
-        }
-        matches = filecontent.match(/^\s*(?:Dann) (.*)$/mg);
-        if (matches && !this.Then.find(t => t === RegExp.$1)) {
-          this.Then.push(RegExp.$1);
+        let matches = filecontent.match(/^\s*(?:(Szenario:|Angenommen|Wenn|Dann|Und|Aber)) (.*)$/gm);
+        matches = matches!.map(s => s.trim()).reverse();
+        while (matches.length > 0) {
+          const index = matches.findIndex(s => s.startsWith('Szenario:'));
+          const scenario = matches.splice(0, index + 1);
+          let keywordIdx = scenario.findIndex(s => s.startsWith('Angenommen') ||
+                                                     s.startsWith('Wenn') ||
+                                                     s.startsWith('Dann'));
+          while (keywordIdx > -1) {
+            const steps = scenario.splice(0, keywordIdx + 1).reverse();
+            switch (steps[0].split(' ', 1)[0]) {
+              case 'Angenommen': {
+                steps.map(s => s.split(' ').slice(1).join(' ')).forEach(s => {
+                  if (!this.Given.find(g => g === s)) {
+                    this.Given.push(s);
+                  }
+                });
+                break;
+              }
+              case 'Wenn': {
+                steps.map(s => s.split(' ').slice(1).join(' ')).forEach(s => {
+                  if (!this.When.find(w => w === s)) {
+                    this.When.push(s);
+                  }
+                });
+                break;
+              }
+              case 'Dann': {
+                steps.map(s => s.split(' ').slice(1).join(' ')).forEach(s => {
+                  if (!this.Then.find(t => t === s)) {
+                    this.Then.push(s);
+                  }
+                });
+                break;
+              }
+              default:
+                break;
+            }
+            keywordIdx = scenario.findIndex(s => s.startsWith('Angenommen') ||
+                                                     s.startsWith('Wenn') ||
+                                                     s.startsWith('Dann'));
+          }
         }
       });
     });

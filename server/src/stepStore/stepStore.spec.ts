@@ -37,17 +37,15 @@ describe('StepStore', function() {
   it('should filter out duplicates', function() {
     const actual = new StepStore();
     return actual.initialize(__dirname + '/features/de/**/*.feature').then(() => {
-      expect(actual.Given.length).to.equal(1);
+      expect(actual.Given.length).to.equal(3);
     });
   });
 
-  xit('should add all And steps', function() {
+  it('should add all And and But steps', function() {
     const actual = new StepStore();
     return actual.initialize(__dirname + '/features/de/**/*.feature').then(() => function() {
       expect(actual.Given).to.include('noch eine Root Vorbedingung');
       expect(actual.Given).to.include('eine dritte Root Vorbedingung');
-      // tslint:disable-next-line:no-console
-      console.log(actual.Given);
     });
   });
 
