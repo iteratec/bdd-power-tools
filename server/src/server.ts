@@ -69,9 +69,16 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
   const doc = documents.get(txtDocPos.textDocument.uri);
   let suggestion: CompletionItem[] = [];
   if (doc) {
-    const lineToPos = doc.getText(Range.create(Position.create(txtDocPos.position.line, 0), txtDocPos.position));
-    const match = /\s*\b(Angenommen|Wenn|Dann)\b/.exec(lineToPos);
-    const keyword = match ? match[1] : '';
+    let lineToPos = doc.getText(Range.create(Position.create(txtDocPos.position.line, 0), txtDocPos.position));
+    let match = /^\s*\b(Angenommen|Wenn|Dann|Und|Aber)\b/.exec(lineToPos);
+    let keyword = match ? match[1] : '';
+    const newPos = txtDocPos.position;
+    while ((keyword === 'Und' || keyword === 'Aber') && newPos.line > 0) {
+      newPos.line--;
+      lineToPos = doc.getText(Range.create(Position.create(newPos.line, 0), Position.create(newPos.line, 1000)));
+      match = /^\s*\b(Angenommen|Wenn|Dann)\b/.exec(lineToPos);
+      keyword = match ? match[1] : '';
+    }
     switch (keyword) {
       case 'Angenommen': {
         suggestion = stepStore.Given.map(s => {
