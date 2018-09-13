@@ -1,134 +1,133 @@
 {
-    "name": "bdd-power-tools",
-    "displayName": "BDD-Power-Tools",
-    "description": "Autocompletion, syntax highlighting for .feature-files and step definitions",
-    "version": "1.0.0-semantically-released",
-    "keywords": [
-        "gherkin",
-        "cucumber",
-        "bdd"
-    ],
-    "author": "Christoph Murczek <christoph.murczek@iteratec.at>",
-    "contributors": [],
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:iteratec/bdd-power-tools.git"
-    },
-    "publisher": "iteratec",
-    "main": "./client/out/extension",
-    "engines": {
-        "vscode": "^1.25.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "activationEvents": [
-        "onLanguage:gherkin"
-    ],
-    "contributes": {
-        "configuration": {
-            "title": "BDD-Power-Tools",
-            "type": "object",
-            "properties": {
-                "bddPowerTools.featureGlob": {
-                    "scope": "resource",
-                    "type": "string",
-                    "default": "features/**/*.feature",
-                    "description": "A glob specifying the feature files in this workspace."
-                },
-                "bddPowerTools.trace.server": {
-                    "scope": "window",
-                    "type": "string",
-                    "enum": [
-                        "off",
-                        "messages",
-                        "verbose"
-                    ],
-                    "default": "off",
-                    "description": "Traces the communication between VS Code and the language server."
-                }
-            }
-        },
-        "languages": [
-            {
-                "id": "gherkin",
-                "aliases": [
-                    "Gherkin",
-                    "gherkin"
-                ],
-                "extensions": [
-                    ".feature"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "gherkin",
-                "scopeName": "text.cucumber.gherkin",
-                "path": "./syntaxes/gherkin.tmLanguage.json"
-            }
-        ]
-    },
-    "dependencies": {},
-    "devDependencies": {
-        "@commitlint/cli": "^7.0.0",
-        "@commitlint/config-conventional": "^7.0.1",
-        "@semantic-release/changelog": "^3.0.0",
-        "@semantic-release/exec": "^3.1.3",
-        "@semantic-release/git": "^7.0.4",
-        "@types/chai": "^4.1.4",
-        "@types/chai-as-promised": "^7.1.0",
-        "@types/mocha": "^5.2.5",
-        "@types/node": "^8.0.0",
-        "chai": "^4.1.2",
-        "chai-as-promised": "^7.1.1",
-        "commitizen": "^2.10.1",
-        "cpx": "^1.5.0",
-        "cz-conventional-changelog": "^2.1.0",
-        "ghooks": "^2.0.4",
-        "mocha": "^5.2.0",
-        "semantic-release": "^15.9.15",
-        "ts-node": "^7.0.1",
-        "tslint": "^5.11.0",
-        "typescript": "^3.0.3"
-    },
-    "scripts": {
-        "build": "npm run build:client && npm run build:server",
-        "build:client": "tsc -p client/tsconfig.json",
-        "build:server": "tsc -p server/tsconfig.json",
-        "watch:client": "tsc -w -p client/tsconfig.json",
-        "watch:server": "tsc -w -p server/tsconfig.json",
-        "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
-        "commit": "git-cz",
-        "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
-        "release": "semantic-release"
-    },
-    "config": {
-        "commitizen": {
-            "path": "cz-conventional-changelog"
-        },
-        "ghooks": {
-            "commit-msg": "commitlint -e"
+  "name": "bdd-power-tools",
+  "displayName": "BDD-Power-Tools",
+  "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
+  "version": "1.0.0-semantically-released",
+  "keywords": [
+    "gherkin",
+    "cucumber",
+    "bdd"
+  ],
+  "author": "Christoph Murczek <christoph.murczek@iteratec.at>",
+  "contributors": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:iteratec/bdd-power-tools.git"
+  },
+  "publisher": "iteratec",
+  "main": "./client/out/extension",
+  "engines": {
+    "vscode": "^1.25.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:gherkin"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "BDD-Power-Tools",
+      "type": "object",
+      "properties": {
+        "bddPowerTools.language": {
+          "scope": "resource",
+          "type": "string",
+          "default": "de",
+          "description": "The spoken language the scenarios are written in."
         }
+      }
     },
-    "release": {
-        "verifyConditions": [
-            "@semantic-release/changelog",
-            "@semantic-release/npm",
-            "@semantic-release/git",
-            "@semantic-release/github"
+    "languages": [
+      {
+        "id": "gherkin",
+        "aliases": [
+          "Gherkin",
+          "gherkin"
         ],
-        "prepare": [
-            "@semantic-release/changelog",
-            "@semantic-release/npm",
-            "@semantic-release/git",
-            {
-                "path": "@semantic-release/exec",
-                "cmd": "vsce package"
-            }
+        "extensions": [
+          ".feature"
         ],
-        "npmPublish": false
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gherkin",
+        "scopeName": "text.cucumber.gherkin",
+        "path": "./syntaxes/gherkin.tmLanguage.json"
+      }
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/exec": "^3.1.3",
+    "@semantic-release/git": "^7.0.4",
+    "@types/chai": "^4.1.4",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.0.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "commitizen": "^2.10.1",
+    "cpx": "^1.5.0",
+    "cz-conventional-changelog": "^2.1.0",
+    "ghooks": "^2.0.4",
+    "mocha": "^5.2.0",
+    "semantic-release": "^15.9.15",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  },
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "tsc -p client/tsconfig.json",
+    "build:server": "tsc -p server/tsconfig.json",
+    "watch:client": "tsc -w -p client/tsconfig.json",
+    "watch:server": "tsc -w -p server/tsconfig.json",
+    "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
+    "commit": "git-cz",
+    "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
+    "release": "semantic-release"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    },
+    "ghooks": {
+      "commit-msg": "commitlint -e"
     }
+  },
+  "release": {
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github",
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "vsce ls-publishers"
+      }
+    ],
+    "prepare": [
+      {
+        "path": "@semantic-release/changelog",
+        "changelogFile": "CHANGELOG.md"
+      },
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "vsce package"
+      }
+    ],
+    "publish": ["@semantic-release/github"],
+    "fail": false,
+    "success": false,
+    "branch": "master"
+  }
 }

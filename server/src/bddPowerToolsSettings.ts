@@ -1,3 +1,3 @@
 export interface BddPowerToolsSettings {
-  featureGlob: string;
+  language: string;
 }

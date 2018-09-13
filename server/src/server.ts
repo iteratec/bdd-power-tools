@@ -13,7 +13,7 @@ import {
   TextDocuments,
 } from 'vscode-languageserver';
 
-import { BddPowerToolsSettings } from './bddPowerToolsSettings';
+// import { BddPowerToolsSettings } from './bddPowerToolsSettings';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents: TextDocuments = new TextDocuments();
@@ -21,8 +21,8 @@ const documents: TextDocuments = new TextDocuments();
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 
-const defaultSettings: BddPowerToolsSettings = { featureGlob: 'features/**/*.feature' };
-let globalSettings = defaultSettings;
+// const defaultSettings: BddPowerToolsSettings = { language: 'de' };
+// let globalSettings = defaultSettings;
 let stepStore: StepStore;
 
 connection.onInitialize((params: InitializeParams) => {
@@ -49,21 +49,16 @@ connection.onInitialized(() => {
       connection.console.info('WorkspacefolderChanged event received');
     });
   }
-  stepStore.initialize(globalSettings.featureGlob).then(() => {
-    connection.console.info(`Given: ${stepStore.Given.join(' | ')}`);
-  });
+  stepStore.initialize('**/*.feature');
 });
 
 connection.onDidChangeConfiguration(change => {
-  globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
-  stepStore.initialize(globalSettings.featureGlob).then(() => {
-    connection.console.info(`Given: ${stepStore.Given.join(' | ')}`);
-  });
+  // globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
+  stepStore.initialize('**/*.feature');
 });
 
-connection.onDidChangeWatchedFiles(change => {
-  connection.console.info(change.changes.join(', '));
-});
+// connection.onDidChangeWatchedFiles(change => {
+// });
 
 connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[] => {
   const doc = documents.get(txtDocPos.textDocument.uri);

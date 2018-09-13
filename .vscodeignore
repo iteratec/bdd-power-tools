@@ -1,4 +1,14 @@
-.vscode/**
+.nyc_output
+**/.vscode/**
 .vscode-test/**
+**/coverage/
 .gitignore
+.gitattributes
+.editorconfig
 vsc-extension-quickstart.md
+test/
+**/*.ts
+**/tsconfig.json
+**/tsconfig.base.json
+**/tsconfig.test.json
+tslint.json
