@@ -2,7 +2,7 @@
   "name": "bdd-power-tools",
   "displayName": "BDD-Power-Tools",
   "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
-  "version": "1.0.0-semantically-released",
+  "version": "0.1.1",
   "keywords": [
     "gherkin",
     "cucumber",
@@ -17,6 +17,7 @@
   },
   "publisher": "iteratec",
   "main": "./client/out/extension",
+  "preview": true,
   "engines": {
     "vscode": "^1.25.0"
   },
@@ -24,7 +25,7 @@
     "Programming Languages"
   ],
   "activationEvents": [
-    "onLanguage:gherkin"
+    "workspaceContains:**/*.feature"
   ],
   "contributes": {
     "configuration": {
@@ -92,6 +93,7 @@
     "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
     "commit": "git-cz",
     "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
+    "prerelease": "build",
     "release": "semantic-release"
   },
   "config": {
