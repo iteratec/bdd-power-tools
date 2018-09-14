@@ -49,12 +49,11 @@ connection.onInitialized(() => {
       connection.console.info('WorkspacefolderChanged event received');
     });
   }
-  stepStore.initialize('**/*.feature');
+  stepStore.initialize();
 });
 
 connection.onDidChangeConfiguration(change => {
   // globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
-  stepStore.initialize('**/*.feature');
 });
 
 // connection.onDidChangeWatchedFiles(change => {
@@ -123,6 +122,10 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
     }
   }
   return suggestion;
+});
+
+connection.onDidChangeWatchedFiles(change => {
+  connection.console.log(change.changes.map(c => c.uri).join(' | '));
 });
 
 // documents.onDidChangeContent(change => {
