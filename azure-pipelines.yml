@@ -15,5 +15,4 @@ steps:
 - script: |
     npm install
     npm run build
-    npm run release:ci --dry-run --debug
   displayName: 'npm install and build'
