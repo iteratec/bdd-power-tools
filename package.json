@@ -82,7 +82,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "ghooks": "^2.0.4",
     "mocha": "^5.2.0",
-    "semantic-release": "^15.9.15",
+    "semantic-release": "15.9.12",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.0.3"
@@ -97,7 +97,8 @@
     "commit": "git-cz",
     "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
     "prerelease": "npm run build",
-    "release": "semantic-release"
+    "release": "semantic-release --no-ci",
+    "release:ci": "semantic-release"
   },
   "config": {
     "commitizen": {
@@ -121,7 +122,7 @@
     "prepare": [
       {
         "path": "@semantic-release/changelog",
-        "changelogFile": "CHANGELOG.md"
+        "changelogFile": "./CHANGELOG.md"
       },
       "@semantic-release/npm",
       "@semantic-release/git",
