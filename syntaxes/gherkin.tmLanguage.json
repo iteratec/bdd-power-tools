@@ -85,7 +85,7 @@
 			]
 		},
 		"tables": {
-			"name": "string.quoted.double.gherkin",
+			"name": "entity.name.type.gherkin",
 			"patterns": [
 				{
 					"begin": "\\|",

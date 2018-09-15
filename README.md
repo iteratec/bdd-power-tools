@@ -1,20 +1,20 @@
 # BDD Power Tools
 
-BDD Power Tools provide syntax highlighting and autocompletion for Gherkin steps in .feature files,
-based on steps available in any .feature files in the workspace.
+BDD Power Tools provide syntax highlighting and autocompletion for Gherkin scenarios.
 
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Syntax highlighting provides nice colorization of Gherkin keywords in .feature files:
 
-For example if there is an image subfolder under your extension project workspace:
+![syntax highlighting](media/syntaxhighlighting.png)
 
-\!\[feature X\]\(images/feature-x.png\)
+In addition autocomplete for gherkin keywords helps building syntactically correct scenarios.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Extension Settings
+> Note: The preview version currently supports only German language for step autocomplete. 
+
+<!-- ## Extension Settings
 
 Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
@@ -23,24 +23,8 @@ For example:
 This extension contributes the following settings:
 
 * `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `myExtension.thing`: set to `blah` to do something -->
 
-## Known Issues
+## Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Use the [issue tracker](https://github.com/iteratec/bdd-power-tools/issues) to report and track any issues and feature requests.

@@ -52,13 +52,6 @@ connection.onInitialized(() => {
   stepStore.initialize();
 });
 
-connection.onDidChangeConfiguration(change => {
-  // globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
-});
-
-// connection.onDidChangeWatchedFiles(change => {
-// });
-
 connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[] => {
   const doc = documents.get(txtDocPos.textDocument.uri);
   let suggestion: CompletionItem[] = [];
@@ -105,6 +98,7 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
         suggestion = [
           'Funktionalität: ',
           'Szenario: ',
+          'Szenariogrundriss: ',
           'Grundlage ',
           'Angenommen ',
           'Wenn ',
@@ -124,11 +118,17 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
   return suggestion;
 });
 
+connection.onDidChangeConfiguration(change => {
+  // connection.console.log(`onDidChangeConfiguration: ${change.settings}`);
+  // globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
+});
+
 connection.onDidChangeWatchedFiles(change => {
-  connection.console.log(change.changes.map(c => c.uri).join(' | '));
+  // connection.console.log(`ChangeWatchedFiles: ${change.changes.map(c => c.uri).join(' | ')}`);
 });
 
 // documents.onDidChangeContent(change => {
+//   connection.console.log(`ChangeContent: ${change.document.uri}`);
 // });
 
 // documents.onDidClose(e => {

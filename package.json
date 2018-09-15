@@ -13,10 +13,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:iteratec/bdd-power-tools.git"
+    "url": "https://github.com/iteratec/bdd-power-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iteratec/bdd-power-tools/issues"
   },
   "publisher": "iteratec",
-  "main": "./client/out/extension",
+  "main": "./client/out/bddPowerTools",
   "preview": true,
   "engines": {
     "vscode": "^1.25.0"
@@ -93,7 +96,7 @@
     "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
     "commit": "git-cz",
     "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
-    "prerelease": "build",
+    "prerelease": "npm run build",
     "release": "semantic-release"
   },
   "config": {
@@ -127,9 +130,16 @@
         "cmd": "vsce package"
       }
     ],
-    "publish": ["@semantic-release/github"],
-    "fail": false,
-    "success": false,
-    "branch": "master"
+    "publish": [
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "vsce publish"
+      }
+    ],
+    "branch": "master",
+    "repositoryUrl": "git@github.com:iteratec/bdd-power-tools.git",
+    "npmPublish": false
   }
 }
