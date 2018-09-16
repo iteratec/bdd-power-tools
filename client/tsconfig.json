@@ -6,7 +6,7 @@
         "declarationMap": true,
         // "module": "commonjs",
         // "target": "es2017",
-        "outDir": "out",
+        "outDir": "../dist/client",
         // "lib": ["es6"],
         // "sourceMap": true,
         "rootDir": "src",

@@ -7,12 +7,42 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-# - task: NodeTool@0
-#  inputs:
-#    versionSpec: '8.x'
-#  displayName: 'Install Node.js'
 
 - script: |
-    npm install
+    npm i -g vsce
+    npm ci
+    cd client
+    npm ci
+    cd ../server
+    npm ci
+    cd ..
     npm run build
   displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(System.DefautlWorkingDirectory)
+    Contents: |
+      *.md
+      .vscodeignore
+    TargetFolder: $(System.DefaultWorkingDirectory)/dist
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(System.DefautlWorkingDirectory)
+    Contents: |
+      media/*.*
+    TargetFolder: $(System.DefaultWorkingDirectory)/dist/media
+
+- script: |
+      cd dist/client
+      npm ci
+      cd ../server
+      npm ci
+      cd ../..
+  displayName: 'install production dependencies in dist'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(System.DefaultWorkingDirectory)/dist/**/*.*'
+    artifactName: 'bddPowerTools'
