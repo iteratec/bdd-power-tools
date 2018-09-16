@@ -35,4 +35,4 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(System.DefaultWorkingDirectory)/dist/'
-    artifactName: 'bddPowerTools'
+    artifactName: 'dist'
