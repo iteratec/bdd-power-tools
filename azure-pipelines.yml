@@ -13,6 +13,7 @@ steps:
     npm ci
     cd client
     npm ci
+    node ./node_modules/vscode/bin/install
     cd ../server
     npm ci
     cd ..
@@ -24,15 +25,10 @@ steps:
     SourceFolder: $(System.DefaultWorkingDirectory)
     Contents: |
       *.md
+      !vsc-extension-quickstart.md
       .vscodeignore
-    TargetFolder: $(System.DefaultWorkingDirectory)/dist
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: $(System.DefaultWorkingDirectory)
-    Contents: |
       media/*.*
-    TargetFolder: $(System.DefaultWorkingDirectory)/dist/media
+    TargetFolder: $(System.DefaultWorkingDirectory)/dist
 
 - script: |
       cd dist/client
