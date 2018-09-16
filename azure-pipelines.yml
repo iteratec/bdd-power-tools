@@ -28,15 +28,9 @@ steps:
       !vsc-extension-quickstart.md
       .vscodeignore
       media/*.*
+      client/node_modules/**/*.*
+      server/node_modules/**/*.*
     TargetFolder: $(System.DefaultWorkingDirectory)/dist
-
-- script: |
-      cd ./dist/client
-      npm ci
-      cd ../server
-      npm ci
-      cd ../..
-  displayName: 'install production dependencies in dist'
 
 - task: PublishBuildArtifacts@1
   inputs:
