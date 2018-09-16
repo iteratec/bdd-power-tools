@@ -21,7 +21,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(System.DefautlWorkingDirectory)
+    SourceFolder: $(System.DefaultWorkingDirectory)
     Contents: |
       *.md
       .vscodeignore
@@ -29,7 +29,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(System.DefautlWorkingDirectory)
+    SourceFolder: $(System.DefaultWorkingDirectory)
     Contents: |
       media/*.*
     TargetFolder: $(System.DefaultWorkingDirectory)/dist/media
