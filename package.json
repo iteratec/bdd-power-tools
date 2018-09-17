@@ -69,8 +69,8 @@
     "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
     "prepublishOnly": "cpx CHANGELOG.md dist/",
     "prerelease": "npm run build",
-    "release": "semantic-release --no-ci --dry-run --debug",
-    "release:ci": "semantic-release"
+    "release": "semantic-release --no-ci --dry-run",
+    "release:ci": "semantic-release --dry-run --debug"
   },
   "dependencies": {},
   "devDependencies": {
@@ -130,19 +130,19 @@
       "@semantic-release/git",
       {
         "path": "@semantic-release/exec",
-        "cmd": "vsce package"
+        "cmd": "cd dist && vsce package"
       }
     ],
     "publish": [
       "@semantic-release/npm",
       {
         "path": "@semantic-release/github",
-        "assets": "*.vsix",
+        "assets": "dist/*.vsix",
         "label": "Extension installer for offline installation"
       },
       {
         "path": "@semantic-release/exec",
-        "cmd": "vsce publish"
+        "cmd": "cd dist && vsce publish"
       }
     ],
     "branch": "master",
