@@ -1,7 +1,6 @@
 {
     "name": "bdd-power-tools-client",
     "version": "1.0.0-semantically-released",
-    "publisher": "iteratec-gmbh",
     "engines": {
         "vscode": "^1.25.0"
     },

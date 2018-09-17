@@ -14,12 +14,24 @@
   "contributors": [],
   "license": "MIT",
   "main": "./dist/client/bddPowerTools",
-  "engines": {
-    "vscode": "^1.25.0"
-  },
+  "badges": [
+    {
+      "description": "Build Status",
+      "href": "https://dev.azure.com/bddpowertools/bddpowertools/_build/latest?definitionId=1",
+      "url": "https://dev.azure.com/bddpowertools/bddpowertools/_apis/build/status/iteratec.bdd-power-tools"
+    },
+    {
+      "description": "semantic-release",
+      "href": "https://github.com/semantic-release/semantic-release",
+      "url": "https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"
+    }
+  ],
   "categories": [
     "Programming Languages"
   ],
+  "engines": {
+    "vscode": "^1.25.0"
+  },
   "activationEvents": [
     "workspaceContains:**/*.feature"
   ],
@@ -70,7 +82,7 @@
     "prepublishOnly": "cpx CHANGELOG.md dist/",
     "prerelease": "npm run build",
     "release": "semantic-release --no-ci --dry-run",
-    "release:ci": "semantic-release --dry-run --debug"
+    "release:ci": "semantic-release"
   },
   "dependencies": {},
   "devDependencies": {
