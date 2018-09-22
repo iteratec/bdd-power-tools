@@ -2,7 +2,7 @@
   "name": "bdd-power-tools",
   "displayName": "BDD-Power-Tools",
   "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "preview": true,
   "keywords": [
     "gherkin",
@@ -13,7 +13,7 @@
   "author": "Christoph Murczek <christoph.murczek@iteratec.at>",
   "contributors": [],
   "license": "MIT",
-  "main": "./dist/client/bddPowerTools",
+  "main": "./client/out/bddPowerTools",
   "badges": [
     {
       "description": "Build Status",
@@ -73,13 +73,11 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "tsc -p client/tsconfig.json",
     "build:server": "tsc -p server/tsconfig.json",
-    "postbuild": "cpx package.json dist/ && cpx package-lock.json dist/ && cpx syntaxes/*.json dist/syntaxes/",
     "watch:client": "tsc -w -p client/tsconfig.json",
     "watch:server": "tsc -w -p server/tsconfig.json",
     "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
     "commit": "git-cz",
     "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
-    "prepublishOnly": "cpx CHANGELOG.md dist/",
     "prerelease": "npm run build",
     "release": "semantic-release --no-ci --dry-run",
     "release:ci": "semantic-release"
@@ -142,7 +140,7 @@
       "@semantic-release/git",
       {
         "path": "@semantic-release/exec",
-        "cmd": "cd dist && vsce package"
+        "cmd": "vsce package"
       }
     ],
     "publish": [
@@ -154,11 +152,10 @@
       },
       {
         "path": "@semantic-release/exec",
-        "cmd": "cd dist && vsce publish"
+        "cmd": "vsce publish"
       }
     ],
     "branch": "master",
-    "pkgRoot": "dist",
     "repositoryUrl": "git@github.com:iteratec/bdd-power-tools.git",
     "npmPublish": false
   }

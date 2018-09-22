@@ -26,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // context.subscriptions.push(disposable);
 
-    const gherkinServer = context.asAbsolutePath(path.join('server', 'out', 'server.js'));
+    const gherkinServer = context.asAbsolutePath(path.join('server', 'out', 'gherkinServer.js'));
     const debugOptions = { execArgv: ['--nolazy', '--inspect=6009']};
     const serverOptions: ServerOptions = {
       debug: {
