@@ -46,10 +46,10 @@ connection.onInitialized(() => {
   }
   if (hasWorkspaceFolderCapability) {
     connection.workspace.onDidChangeWorkspaceFolders(workspaceFolderChangedEvent => {
-      connection.console.info('WorkspacefolderChanged event received');
+      // connection.console.info('WorkspacefolderChanged event received');
     });
   }
-  stepStore.initialize();
+  stepStore.initialize(connection.console);
 });
 
 connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[] => {

@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { promise as glob} from 'glob-promise';
+import { RemoteConsole } from 'vscode-languageserver';
 
 export class StepStore {
 
@@ -9,13 +10,15 @@ export class StepStore {
 
   public featureFiles: string[] = [];
 
-  public initialize(): PromiseLike<void> {
+  public initialize(logger: RemoteConsole): PromiseLike<void> {
     this.Given = [];
     this.When = [];
     this.Then = [];
+    logger.log('initializing step store');
     return glob('./**/*.feature').then((featureFiles: string[]) => {
       this.featureFiles = featureFiles;
       featureFiles.forEach(file => {
+        logger.info(`importing steps from ${file}`);
         const filecontent = fs.readFileSync(file, 'utf-8');
         let matches = filecontent.match(/^\s*(?:(Szenario:|Angenommen|Wenn|Dann|Und|Aber)) (.*)$/gm);
         if (matches) {
@@ -65,8 +68,7 @@ export class StepStore {
       });
     })
     .catch(error => {
-      // tslint:disable-next-line:no-console
-      console.error(error);
+      logger.error(error);
     });
   }
 }
