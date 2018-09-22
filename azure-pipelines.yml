@@ -11,7 +11,7 @@ steps:
 - script: |
     npm i vsce
   displayName: 'npm install tooling'
-  # env: NPM_TOKEN: $(NPMTOKEN)
+  env: NPM_TOKEN: $(NPMTOKEN)
 
 - script: |
     npm ci
@@ -21,32 +21,13 @@ steps:
     npm ci
     cd ..
   displayName: 'npm install dependencies'
-  # env: NPM_TOKEN: $(NPMTOKEN)
+  env: NPM_TOKEN: $(NPMTOKEN)
 
 - script: |
     npm run build
   displayName: 'build'
-  # env: NPM_TOKEN: $(NPMTOKEN)
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: $(System.DefaultWorkingDirectory)
-    Contents: |
-      *.md
-      !vsc-extension-quickstart.md
-      .vscodeignore
-      media/*.*
-      client/package*.json
-      client/node_modules/**/*.*
-      server/package*.json
-      server/node_modules/**/*.*
-    TargetFolder: $(System.DefaultWorkingDirectory)/dist
+  env: NPM_TOKEN: $(NPMTOKEN)
 
 - script: |
     npm run release:ci
-  # env: NPM_TOKEN: $(NPMTOKEN)
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     pathToPublish: '$(System.DefaultWorkingDirectory)/dist/'
-#     artifactName: 'dist'
+  env: NPM_TOKEN: $(NPMTOKEN)
