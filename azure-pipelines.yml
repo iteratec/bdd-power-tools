@@ -11,7 +11,8 @@ steps:
 - script: |
     npm i vsce
   displayName: 'npm install tooling'
-  env: NPM_TOKEN: $(NPMTOKEN)
+  env:
+    NPM_TOKEN: $(NPMTOKEN)
 
 - script: |
     npm ci
@@ -21,13 +22,16 @@ steps:
     npm ci
     cd ..
   displayName: 'npm install dependencies'
-  env: NPM_TOKEN: $(NPMTOKEN)
+  env:
+    NPM_TOKEN: $(NPMTOKEN)
 
 - script: |
     npm run build
   displayName: 'build'
-  env: NPM_TOKEN: $(NPMTOKEN)
+  env:
+    NPM_TOKEN: $(NPMTOKEN)
 
 - script: |
     npm run release:ci
-  env: NPM_TOKEN: $(NPMTOKEN)
+  env:
+    NPM_TOKEN: $(NPMTOKEN)
