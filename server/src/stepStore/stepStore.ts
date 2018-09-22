@@ -13,7 +13,7 @@ export class StepStore {
     this.Given = [];
     this.When = [];
     this.Then = [];
-    return glob('**/*.feature').then((featureFiles: string[]) => {
+    return glob('./**/*.feature').then((featureFiles: string[]) => {
       this.featureFiles = featureFiles;
       featureFiles.forEach(file => {
         const filecontent = fs.readFileSync(file, 'utf-8');
