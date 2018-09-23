@@ -1,5 +1,3 @@
-import { StepStore } from './stepStore/stepStore';
-
 import {
   CompletionItem,
   CompletionItemKind,
@@ -13,7 +11,9 @@ import {
   TextDocuments,
 } from 'vscode-languageserver';
 
-// import { BddPowerToolsSettings } from './bddPowerToolsSettings';
+import { BddPowerToolsSettings } from './bddPowerToolsSettings';
+import gherkin from './gherkin.json';
+import { StepStore } from './stepStore/stepStore';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents: TextDocuments = new TextDocuments();
@@ -21,15 +21,15 @@ const documents: TextDocuments = new TextDocuments();
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
 
-// const defaultSettings: BddPowerToolsSettings = { language: 'de' };
-// let globalSettings = defaultSettings;
+const defaultSettings: BddPowerToolsSettings = { language: 'de' };
+let globalSettings = defaultSettings;
 let stepStore: StepStore;
 
 connection.onInitialize((params: InitializeParams) => {
   const capabilities = params.capabilities;
   hasConfigurationCapability = capabilities.workspace! && !!capabilities.workspace!.configuration;
   hasWorkspaceFolderCapability = capabilities.workspace! && !!capabilities.workspace!.workspaceFolders;
-  stepStore = new StepStore();
+  stepStore = new StepStore(connection.console);
   return {
     capabilities: {
       completionProvider: {
@@ -49,25 +49,32 @@ connection.onInitialized(() => {
       // connection.console.info('WorkspacefolderChanged event received');
     });
   }
-  stepStore.initialize(connection.console);
+  stepStore.initialize(globalSettings.language);
 });
 
 connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[] => {
   const doc = documents.get(txtDocPos.textDocument.uri);
   let suggestion: CompletionItem[] = [];
   if (doc) {
+    let pattern = gherkin.repository.keywords.patterns.find(p => p.name.endsWith(globalSettings.language));
+    const keywords = pattern ?
+      pattern.match : gherkin.repository.keywords.patterns.find(p => p.name.endsWith('en'))!.match;
+    const keywordsArray = keywords.substring(1, keywords.length - 1).split('|');
+    pattern = gherkin.repository.steps.patterns.find(s => s.name.endsWith(globalSettings.language));
+    const steps = pattern ? pattern.match : gherkin.repository.steps.patterns.find(p => p.name.endsWith('en'))!.match;
+    const stepsArray = steps.substring(1, steps.length - 1).split('|');
     let lineToPos = doc.getText(Range.create(Position.create(txtDocPos.position.line, 0), txtDocPos.position));
-    let match = /^\s*\b(Angenommen|Wenn|Dann|Und|Aber)\b/.exec(lineToPos);
+    let match = new RegExp(`^\\s*\\b${steps}\\b`).exec(lineToPos);
     let keyword = match ? match[1] : '';
     const newPos = txtDocPos.position;
-    while ((keyword === 'Und' || keyword === 'Aber') && newPos.line > 0) {
+    while ((keyword === stepsArray[3] || keyword === stepsArray[4]) && newPos.line > 0) {
       newPos.line--;
       lineToPos = doc.getText(Range.create(Position.create(newPos.line, 0), Position.create(newPos.line, 1000)));
-      match = /^\s*\b(Angenommen|Wenn|Dann)\b/.exec(lineToPos);
-      keyword = match ? match[1] : '';
+      match = new RegExp(`^\\s*\\b(${stepsArray[0]}|${stepsArray[1]}|${stepsArray[2]})\\b`).exec(lineToPos);
+      keyword = match ? match[1] : keyword;
     }
     switch (keyword) {
-      case 'Angenommen': {
+      case stepsArray[0]: {
         suggestion = stepStore.Given.map(s => {
           return {
             kind: CompletionItemKind.Constant,
@@ -76,7 +83,7 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
         });
         break;
       }
-      case 'Wenn': {
+      case stepsArray[1]: {
         suggestion = stepStore.When.map(s => {
           return {
             kind: CompletionItemKind.Constant,
@@ -85,7 +92,7 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
         });
         break;
       }
-      case 'Dann': {
+      case stepsArray[2]: {
         suggestion = stepStore.Then.map(s => {
           return {
             kind: CompletionItemKind.Constant,
@@ -95,17 +102,7 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
         break;
       }
       default: {
-        suggestion = [
-          'Funktionalität: ',
-          'Szenario: ',
-          'Szenariogrundriss: ',
-          'Grundlage ',
-          'Angenommen ',
-          'Wenn ',
-          'Dann ',
-          'Und ',
-          'Aber ',
-          'Beispiele: '].map(kw => {
+        suggestion = keywordsArray.concat(stepsArray).map(kw => {
             return {
               kind: CompletionItemKind.Keyword,
               label: kw,
@@ -120,7 +117,8 @@ connection.onCompletion((txtDocPos: TextDocumentPositionParams): CompletionItem[
 
 connection.onDidChangeConfiguration(change => {
   // connection.console.log(`onDidChangeConfiguration: ${change.settings}`);
-  // globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
+  globalSettings = ((change.settings.bddPowerTools || defaultSettings)) as BddPowerToolsSettings;
+  stepStore.initialize(globalSettings.language);
 });
 
 connection.onDidChangeWatchedFiles(change => {
