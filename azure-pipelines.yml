@@ -35,3 +35,4 @@ steps:
     env:
       NPM_TOKEN: $(NPMTOKEN)
       GITHUB_TOKEN: $(GITHUBTOKEN)
+      PAT: $(AZUREDEVOPSTOKEN)

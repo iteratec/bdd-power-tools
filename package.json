@@ -150,12 +150,12 @@
       "@semantic-release/npm",
       {
         "path": "@semantic-release/github",
-        "assets": "dist/*.vsix",
+        "assets": "*.vsix",
         "label": "Extension installer for offline installation"
       },
       {
         "path": "@semantic-release/exec",
-        "cmd": "vsce publish"
+        "cmd": "vsce publish -p $PAT"
       }
     ],
     "branch": "master",
