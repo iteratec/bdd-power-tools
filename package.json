@@ -85,9 +85,6 @@
     "release": "semantic-release --no-ci --dry-run",
     "release:ci": "semantic-release"
   },
-  "dependencies": {
-    "vsce": "^1.51.1"
-  },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
