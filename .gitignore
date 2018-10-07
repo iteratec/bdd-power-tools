@@ -4,9 +4,9 @@ node_modules
 
 .nyc_output
 coverage
-dist
-test
+out
 
-.vscode/*
+.vscode-test
+.vscode
 !.vscode/launch.json
 !.vscode/tasks.json

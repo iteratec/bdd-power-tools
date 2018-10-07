@@ -1,7 +1,9 @@
 .nyc_output
-**/.vscode/**
-.vscode-test/**
+**/.vscode/
+**/.vscode-test/
 **/coverage/
+**/test/
+
 **/.gitignore
 **/.gitattributes
 **/.editorconfig

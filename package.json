@@ -2,8 +2,7 @@
   "name": "bdd-power-tools",
   "displayName": "BDD-Power-Tools",
   "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
-  "version": "0.1.2",
-  "preview": true,
+  "version": "1.0.0",
   "keywords": [
     "gherkin",
     "cucumber",
@@ -43,7 +42,7 @@
         "bddPowerTools.language": {
           "scope": "resource",
           "type": "string",
-          "default": "de",
+          "default": "en",
           "description": "The spoken language the scenarios are written in."
         }
       }
@@ -80,7 +79,8 @@
     "prewatch:server": "npm run prebuild:server",
     "postinstall": "cd ./client && npm i && cd ../server && npm i && cd ..",
     "commit": "git-cz",
-    "test": "mocha -r chai -r chai-as-promised -r ts-node/register **/*.spec.ts",
+    "pretest": "npm run build && cpy client/src/test/features client/out/test/features",
+    "test": "node ./client/node_modules/vscode/bin/test",
     "prerelease": "npm run build",
     "release": "semantic-release --no-ci --dry-run",
     "release:ci": "semantic-release"

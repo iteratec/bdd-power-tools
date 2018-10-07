@@ -5,7 +5,6 @@
 
 BDD Power Tools provide syntax highlighting and autocompletion for Gherkin scenarios.
 
-
 ## Features
 
 Syntax highlighting provides nice colorization of Gherkin keywords in .feature files:
@@ -14,19 +13,12 @@ Syntax highlighting provides nice colorization of Gherkin keywords in .feature f
 
 In addition autocomplete for gherkin keywords helps building syntactically correct scenarios.
 
-
-> Note: The preview version currently supports only German language for step autocomplete. 
-
-<!-- ## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
+## Extension Settings
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something -->
+-   `bddPowerTools.language`: the spolen langauge the scenarios are written in
+    > Note: Starting with version 1.0.0, the default language has been switched to `en`.
 
 ## Issues
 
