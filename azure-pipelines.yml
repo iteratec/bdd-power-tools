@@ -8,7 +8,7 @@ pool:
 
 steps:
   - script: |
-      npm i vsce --no-save
+      npm i -g vsce
     displayName: "npm install tooling"
     env:
       NPM_TOKEN: $(NPMTOKEN)
