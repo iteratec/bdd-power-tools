@@ -4,34 +4,34 @@
 # https://docs.microsoft.com/vsts/pipelines/languages/javascript
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: "Ubuntu 16.04"
 
 steps:
+  - script: |
+      npm i vsce
+    displayName: "npm install tooling"
+    env:
+      NPM_TOKEN: $(NPMTOKEN)
 
-- script: |
-    npm i vsce
-  displayName: 'npm install tooling'
-  env:
-    NPM_TOKEN: $(NPMTOKEN)
+  - script: |
+      npm ci
+      cd client
+      npm ci
+      cd ../server
+      npm ci
+      cd ..
+    displayName: "npm install dependencies"
+    env:
+      NPM_TOKEN: $(NPMTOKEN)
 
-- script: |
-    npm ci
-    cd client
-    npm ci
-    cd ../server
-    npm ci
-    cd ..
-  displayName: 'npm install dependencies'
-  env:
-    NPM_TOKEN: $(NPMTOKEN)
+  - script: |
+      npm run build
+    displayName: "build"
+    env:
+      NPM_TOKEN: $(NPMTOKEN)
 
-- script: |
-    npm run build
-  displayName: 'build'
-  env:
-    NPM_TOKEN: $(NPMTOKEN)
-
-- script: |
-    npm run release:ci
-  env:
-    NPM_TOKEN: $(NPMTOKEN)
+  - script: |
+      npm run release:ci
+    env:
+      NPM_TOKEN: $(NPMTOKEN)
+      GITHUB_TOKEN: $(GITHUBTOKEN)
