@@ -8,12 +8,6 @@ pool:
 
 steps:
   - script: |
-      npm i -g vsce
-    displayName: "npm install tooling"
-    env:
-      NPM_TOKEN: $(NPMTOKEN)
-
-  - script: |
       npm ci
       cd client
       npm ci
@@ -27,6 +21,12 @@ steps:
   - script: |
       npm run build
     displayName: "build"
+    env:
+      NPM_TOKEN: $(NPMTOKEN)
+
+  - script: |
+      npm i vsce --no-save
+    displayName: "npm install tooling"
     env:
       NPM_TOKEN: $(NPMTOKEN)
 
