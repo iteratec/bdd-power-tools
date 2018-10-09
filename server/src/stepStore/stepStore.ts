@@ -11,7 +11,7 @@ export class StepStore {
 
   public featureFiles: string[] = [];
 
-  constructor(private logger: RemoteConsole) {}
+  constructor(private logger: RemoteConsole) { }
 
   public initialize(
     documents: TextDocuments,
@@ -27,7 +27,7 @@ export class StepStore {
     const keywords = pattern
       ? pattern.match
       : gherkin.repository.keywords.patterns.find(k => k.name.endsWith('en'))!
-          .match;
+        .match;
     const keywordsArray = keywords.substring(1, keywords.length - 1).split('|');
     pattern = gherkin.repository.steps.patterns.find(p =>
       p.name.endsWith(language),
@@ -35,7 +35,7 @@ export class StepStore {
     const stepsString = pattern
       ? pattern.match
       : gherkin.repository.steps.patterns.find(p => p.name.endsWith(language))!
-          .match;
+        .match;
     const stepsArray = stepsString
       .substring(1, stepsString.length - 1)
       .split('|');
@@ -56,9 +56,9 @@ export class StepStore {
             new RegExp(
               //             Background       Scenario
               `^\\s*(?:(${keywordsArray[1]}|${keywordsArray[2]}|${
-                //  Scenario Outline
-                keywordsArray[3]
-              }|${stepsArray.join('|')})) (.*)$`,
+              //  Scenario Outline
+              keywordsArray[3]
+              }|${stepsArray.join('|')}))\s?(.*)$`,
               'gm',
             ),
           );
