@@ -32,6 +32,7 @@ steps:
 
   - script: |
       npm run release:ci
+    displayName: "release"
     env:
       NPM_TOKEN: $(NPMTOKEN)
       GITHUB_TOKEN: $(GITHUBTOKEN)
