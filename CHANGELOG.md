@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/iteratec/bdd-power-tools/compare/v1.0.0...v1.0.1) (2018-10-09)
+
+
+### Bug Fixes
+
+* **stepStore:** correctly parse Background: sections ([14e8818](https://github.com/iteratec/bdd-power-tools/commit/14e8818))
+
 # 1.0.0 (2018-10-07)
 
 
