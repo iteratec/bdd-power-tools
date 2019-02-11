@@ -1,12 +1,7 @@
 'use strict';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import {
-  LanguageClient,
-  LanguageClientOptions,
-  ServerOptions,
-  TransportKind,
-} from 'vscode-languageclient';
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 
 let client: LanguageClient;
 
@@ -30,9 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // context.subscriptions.push(disposable);
 
-  const gherkinServer = context.asAbsolutePath(
-    path.join('server', 'out', 'gherkinServer.js'),
-  );
+  const gherkinServer = context.asAbsolutePath(path.join('server', 'out', 'gherkinServer.js'));
   const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
   const serverOptions: ServerOptions = {
     debug: {
@@ -47,20 +40,12 @@ export function activate(context: vscode.ExtensionContext) {
   };
 
   const clientOptions: LanguageClientOptions = {
-    documentSelector: [
-      { scheme: 'file', language: 'gherkin' },
-      { scheme: 'untitled', language: 'gherkin' },
-    ],
+    documentSelector: [{ scheme: 'file', language: 'gherkin' }, { scheme: 'untitled', language: 'gherkin' }],
     synchronize: {
       fileEvents: vscode.workspace.createFileSystemWatcher('**/*.feature'),
     },
   };
-  client = new LanguageClient(
-    'bdd-power-tools.gherkin-server',
-    'BDD-Power-Tools',
-    serverOptions,
-    clientOptions,
-  );
+  client = new LanguageClient('bdd-power-tools.gherkin-server', 'BDD-Power-Tools', serverOptions, clientOptions);
   client.start();
 }
 

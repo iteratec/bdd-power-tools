@@ -12,14 +12,11 @@ describe('Autocomplete', function() {
     if (vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive) {
       return Promise.resolve();
     }
-    return vscode.extensions
-      .getExtension('iteratec.bdd-power-tools')!
-      .activate();
+    return vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
   });
 
   it('should be active', function() {
-    vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive.should
-      .be.true;
+    vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive.should.be.true;
   });
 
   it('should suggest given steps from existing feature files', function() {
@@ -49,10 +46,7 @@ describe('Autocomplete', function() {
         // tslint:disable-next-line:no-console
         console.log(list);
         list.length.should.equal(2);
-        return list.should.deep.equal([
-          'there are feature files',
-          'the files contain steps',
-        ]);
+        return list.should.deep.equal(['there are feature files', 'the files contain steps']);
       });
   });
 
@@ -83,10 +77,7 @@ describe('Autocomplete', function() {
         // tslint:disable-next-line:no-console
         console.log(list);
         list.length.should.equal(2);
-        return list.should.deep.equal([
-          'I write a new scenario',
-          'I add steps',
-        ]);
+        return list.should.deep.equal(['I write a new scenario', 'I add steps']);
       });
   });
 
@@ -117,10 +108,7 @@ describe('Autocomplete', function() {
         // tslint:disable-next-line:no-console
         console.log(list);
         list.length.should.equal(2);
-        return list.should.deep.equal([
-          'I get suggestions for steps',
-          'the suggestions are taken from the files',
-        ]);
+        return list.should.deep.equal(['I get suggestions for steps', 'the suggestions are taken from the files']);
       });
   });
 });

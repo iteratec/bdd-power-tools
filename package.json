@@ -2,10 +2,10 @@
   "name": "bdd-power-tools",
   "displayName": "BDD-Power-Tools",
   "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
-  "version": "1.0.1",
+  "version": "1.0.0-semantically-released",
   "keywords": [
     "gherkin",
-    "cucumber",
+    "feature",
     "bdd"
   ],
   "publisher": "iteratec",
