@@ -58,6 +58,9 @@
 				}, {
 					"name": "keyword.control.gherkin.de",
 					"match": "(Funktionalität:|Grundlage:|Szenario:|Szenariogrundriss:|Beispiele:)"
+			  }, {
+					"name": "keyword.control.gherkin.pt-BR",
+					"match": "(Funcionalidade:|Segundo plano:|Cenário:|Esboço do cenário:|Exemplos:)"
 			}]
 		},
 		"languages": {
@@ -73,6 +76,9 @@
 				 }, {
 					"name": "keyword.other.gherkin.de",
 					"match": "(Angenommen|Wenn|Dann|Und|Aber)"
+			   }, {
+					"name": "keyword.other.gherkin.pt-BR",
+					"match": "(Dado|Quando|Então|E|Mas)"
 			}]
 		},
 		"strings": {
