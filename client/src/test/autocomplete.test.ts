@@ -5,110 +5,110 @@ import * as vscode from 'vscode';
 describe('Autocomplete', function() {
   let should: Chai.Should;
 
-  this.beforeAll(function() {
-    this.timeout(20000);
+  this.beforeAll(async function() {
     should = chai.should();
     chai.use(chaiAsPromised);
-    if (vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive) {
-      return Promise.resolve();
+    if (!vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive) {
+      return await vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
     }
-    return vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
   });
 
   it('should be active', function() {
     vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive.should.be.true;
   });
 
-  it('should suggest given steps from existing feature files', function() {
-    let featureFile: vscode.TextDocument;
-    return vscode.workspace
-      .openTextDocument({
-        content: `
+  it('should suggest given steps from existing feature files', async function() {
+    this.timeout(5000);
+    const featureFile = await vscode.workspace.openTextDocument({
+      content: `
         Feature: a new feature
-          Scenario: another scenario
+          Scenario: a new scenario
             Given `,
-        language: 'gherkin',
-      })
-      .then(document => {
-        featureFile = document;
-        return vscode.window.showTextDocument(featureFile);
-      })
-      .then(editor => {
-        const pos = new vscode.Position(2, 19);
-        return vscode.commands.executeCommand<vscode.CompletionList>(
-          'vscode.executeCompletionItemProvider',
-          featureFile.uri,
-          pos,
-        );
-      })
-      .then(completionItemList => {
-        const list = completionItemList!.items.map(ci => ci.label);
-        // tslint:disable-next-line:no-console
-        console.log(list);
-        list.length.should.equal(2);
-        return list.should.deep.equal(['there are feature files', 'the files contain steps']);
+      language: 'gherkin',
+    });
+    await vscode.window.showTextDocument(featureFile);
+    const expectedCompletionList = [
+      { label: 'a root precondition', kind: vscode.CompletionItemKind.Constant },
+      { label: 'a second root precondition', kind: vscode.CompletionItemKind.Constant },
+      { label: 'another root precondition', kind: vscode.CompletionItemKind.Constant },
+      { label: 'not the third root precondition', kind: vscode.CompletionItemKind.Constant },
+    ];
+    const pos = new vscode.Position(3, 25);
+    const actualCompletionList = await vscode.commands.executeCommand<vscode.CompletionList>(
+      'vscode.executeCompletionItemProvider',
+      featureFile.uri,
+      pos,
+    );
+    if (actualCompletionList) {
+      const actualItems = actualCompletionList.items.map(item => {
+        return { label: item.label, kind: item.kind };
       });
+      return actualItems.should.deep.equal(expectedCompletionList);
+    } else {
+      throw new Error('No completion list');
+    }
   });
 
-  it('should suggest when steps from existing feature files', function() {
-    let featureFile: vscode.TextDocument;
-    return vscode.workspace
-      .openTextDocument({
-        content: `
+  it('should suggest when steps from existing feature files', async function() {
+    this.timeout(5000);
+    const featureFile = await vscode.workspace.openTextDocument({
+      content: `
         Feature: a new feature
           Scenario: another scenario
             When `,
-        language: 'gherkin',
-      })
-      .then(document => {
-        featureFile = document;
-        return vscode.window.showTextDocument(featureFile);
-      })
-      .then(editor => {
-        const pos = new vscode.Position(2, 19);
-        return vscode.commands.executeCommand<vscode.CompletionList>(
-          'vscode.executeCompletionItemProvider',
-          featureFile.uri,
-          pos,
-        );
-      })
-      .then(completionItemList => {
-        const list = completionItemList!.items.map(ci => ci.label);
-        // tslint:disable-next-line:no-console
-        console.log(list);
-        list.length.should.equal(2);
-        return list.should.deep.equal(['I write a new scenario', 'I add steps']);
+      language: 'gherkin',
+    });
+    await vscode.window.showTextDocument(featureFile);
+    const expectedCompletionList = [
+      { label: 'a root action', kind: vscode.CompletionItemKind.Constant },
+      { label: 'a simple root action', kind: vscode.CompletionItemKind.Constant },
+      { label: 'another root action', kind: vscode.CompletionItemKind.Constant },
+      { label: 'not the third root action', kind: vscode.CompletionItemKind.Constant },
+    ];
+    const pos = new vscode.Position(3, 23);
+    const actualCompletionList = await vscode.commands.executeCommand<vscode.CompletionList>(
+      'vscode.executeCompletionItemProvider',
+      featureFile.uri,
+      pos,
+    );
+    if (actualCompletionList) {
+      const actualItems = actualCompletionList.items.map(item => {
+        return { label: item.label, kind: item.kind };
       });
+      return actualItems.should.deep.equal(expectedCompletionList);
+    } else {
+      throw new Error('No completion list');
+    }
   });
 
-  it('should suggest then steps from existing feature files', function() {
-    let featureFile: vscode.TextDocument;
-    return vscode.workspace
-      .openTextDocument({
-        content: `
+  it('should suggest then steps from existing feature files', async function() {
+    const expectedCompletionList = [
+      { label: 'a root result', kind: vscode.CompletionItemKind.Constant },
+      { label: 'a simple root result', kind: vscode.CompletionItemKind.Constant },
+      { label: 'another root result', kind: vscode.CompletionItemKind.Constant },
+      { label: 'not the third root result', kind: vscode.CompletionItemKind.Constant },
+    ];
+    const featureFile = await vscode.workspace.openTextDocument({
+      content: `
         Feature: a new feature
           Scenario: another scenario
             Then `,
-        language: 'gherkin',
-      })
-      .then(document => {
-        featureFile = document;
-        return vscode.window.showTextDocument(featureFile);
-      })
-      .then(editor => {
-        const pos = new vscode.Position(2, 19);
-        return vscode.commands.executeCommand<vscode.CompletionList>(
-          'vscode.executeCompletionItemProvider',
-          featureFile.uri,
-          pos,
-        );
-      })
-      .then(completionItemList => {
-        const list = completionItemList!.items.map(ci => ci.label);
-        // tslint:disable-next-line:no-console
-        console.log(list);
-        list.length.should.equal(2);
-        return list.should.deep.equal(['I get suggestions for steps', 'the suggestions are taken from the files']);
+      language: 'gherkin',
+    });
+    await vscode.window.showTextDocument(featureFile);
+    const pos = new vscode.Position(3, 23);
+    const actualCompletionList = await vscode.commands.executeCommand<vscode.CompletionList>(
+      'vscode.executeCompletionItemProvider',
+      featureFile.uri,
+      pos,
+    );
+    if (actualCompletionList) {
+      const actualCompletionItems = actualCompletionList!.items.map(item => {
+        return { label: item.label, kind: item.kind };
       });
+      return actualCompletionItems.should.deep.equal(expectedCompletionList);
+    } else {
+      throw new Error('No completion list');
+    }
   });
 });

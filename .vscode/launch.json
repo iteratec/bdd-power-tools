@@ -34,10 +34,10 @@
       "args": [
         "--disable-extensions",
         "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionTestsPath=${workspaceFolder}/client/out/test"
+        "--extensionTestsPath=${workspaceFolder}/client/out/test",
+        "${workspaceFolder}/client/src/e2e"
       ],
-      "outFiles": ["${workspaceFolder}/client/out/test/**/*.js"],
-      "preLaunchTask": "npm: build"
+      "outFiles": ["${workspaceFolder}/client/out/test/**/*.js"]
     }
   ]
 }

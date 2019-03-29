@@ -5,7 +5,7 @@
   "tasks": [
     {
       "label": "build",
-      "dependsOn":[
+      "dependsOn": [
         {
           "type": "npm",
           "script": "build:client"
@@ -39,8 +39,7 @@
     },
     {
       "label": "watch",
-      "identifier": "watch",
-      "dependsOn":[
+      "dependsOn": [
         {
           "type": "npm",
           "script": "watch:client"
@@ -48,7 +47,7 @@
         {
           "type": "npm",
           "script": "watch:server"
-        },
+        }
       ]
     },
     {
@@ -63,7 +62,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$tsc-watch"],
+      "problemMatcher": ["$tsc-watch"]
     },
     {
       "type": "npm",
@@ -77,7 +76,7 @@
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$tsc-watch"],
-    },
+      "problemMatcher": ["$tsc-watch"]
+    }
   ]
 }

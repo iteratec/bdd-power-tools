@@ -3,6 +3,7 @@
 **/.vscode-test/
 **/coverage/
 **/test/
+**/e2e/
 
 **/.gitignore
 **/.gitattributes
