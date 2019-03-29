@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/iteratec/bdd-power-tools/compare/v1.0.1...v1.0.2) (2019-01-21)
+
+
+### Bug Fixes
+
+* **server:** ignores .feature files in node_modules ([1edac1a](https://github.com/iteratec/bdd-power-tools/commit/1edac1a))
+
 ## [1.0.1](https://github.com/iteratec/bdd-power-tools/compare/v1.0.0...v1.0.1) (2018-10-09)
 
 
