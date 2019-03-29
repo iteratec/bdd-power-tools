@@ -34,8 +34,8 @@ steps:
     displayName: "run tests"
     env:
       DISPLAY: 10
-      CODE_TESTS_PATH: ./client/out/test
-      CODE_TESTS_WORKSPACE: ./client/src/e2e
+      CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
+      CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
 
   - script: |
       npm i vsce --no-save
