@@ -36,6 +36,7 @@ steps:
       DISPLAY: 10
       CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
       CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
+      CODE_DISABLE_EXTENSIONS: True
 
   - script: |
       npm i vsce --no-save
