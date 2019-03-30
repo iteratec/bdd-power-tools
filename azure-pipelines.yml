@@ -24,19 +24,19 @@ steps:
     env:
       NPM_TOKEN: $(NPMTOKEN)
 
-  - script: |
-      set -e
-      /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
-      disown -ar
-    displayName: "start xvfb"
+  # - script: |
+  #     set -e
+  #     /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
+  #     disown -ar
+  #   displayName: "start xvfb"
 
-  - script: "node client/node_modules/vscode/bin/test"
-    displayName: "run tests"
-    env:
-      DISPLAY: 10
-      CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
-      CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
-      CODE_DISABLE_EXTENSIONS: True
+  # - script: "node client/node_modules/vscode/bin/test"
+  #   displayName: "run tests"
+  #   env:
+  #     DISPLAY: 10
+  #     CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
+  #     CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
+  #     CODE_DISABLE_EXTENSIONS: $(True)
 
   - script: |
       npm i vsce --no-save
