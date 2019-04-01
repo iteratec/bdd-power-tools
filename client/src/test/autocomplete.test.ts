@@ -9,7 +9,8 @@ describe('Autocomplete', function() {
     should = chai.should();
     chai.use(chaiAsPromised);
     if (!vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive) {
-      return await vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
+      await vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
+      return await new Promise(resolve => setTimeout(resolve, 1000));
     }
   });
 
