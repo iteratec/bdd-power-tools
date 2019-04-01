@@ -9,8 +9,7 @@ describe('Autocomplete', function() {
     should = chai.should();
     chai.use(chaiAsPromised);
     if (!vscode.extensions.getExtension('iteratec.bdd-power-tools')!.isActive) {
-      await vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
-      return await new Promise(resolve => setTimeout(resolve, 1000));
+      return await vscode.extensions.getExtension('iteratec.bdd-power-tools')!.activate();
     }
   });
 
@@ -20,6 +19,12 @@ describe('Autocomplete', function() {
 
   it('should suggest given steps from existing feature files', async function() {
     this.timeout(5000);
+    const expectedCompletionList = [
+      { label: 'a root precondition', kind: vscode.CompletionItemKind.Constant },
+      { label: 'a second root precondition', kind: vscode.CompletionItemKind.Constant },
+      { label: 'another root precondition', kind: vscode.CompletionItemKind.Constant },
+      { label: 'not the third root precondition', kind: vscode.CompletionItemKind.Constant },
+    ];
     const featureFile = await vscode.workspace.openTextDocument({
       content: `
         Feature: a new feature
@@ -28,12 +33,7 @@ describe('Autocomplete', function() {
       language: 'gherkin',
     });
     await vscode.window.showTextDocument(featureFile);
-    const expectedCompletionList = [
-      { label: 'a root precondition', kind: vscode.CompletionItemKind.Constant },
-      { label: 'a second root precondition', kind: vscode.CompletionItemKind.Constant },
-      { label: 'another root precondition', kind: vscode.CompletionItemKind.Constant },
-      { label: 'not the third root precondition', kind: vscode.CompletionItemKind.Constant },
-    ];
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const pos = new vscode.Position(3, 25);
     const actualCompletionList = await vscode.commands.executeCommand<vscode.CompletionList>(
       'vscode.executeCompletionItemProvider',
@@ -52,6 +52,12 @@ describe('Autocomplete', function() {
 
   it('should suggest when steps from existing feature files', async function() {
     this.timeout(5000);
+    const expectedCompletionList = [
+      { label: 'a root action', kind: vscode.CompletionItemKind.Constant },
+      { label: 'a simple root action', kind: vscode.CompletionItemKind.Constant },
+      { label: 'another root action', kind: vscode.CompletionItemKind.Constant },
+      { label: 'not the third root action', kind: vscode.CompletionItemKind.Constant },
+    ];
     const featureFile = await vscode.workspace.openTextDocument({
       content: `
         Feature: a new feature
@@ -60,12 +66,7 @@ describe('Autocomplete', function() {
       language: 'gherkin',
     });
     await vscode.window.showTextDocument(featureFile);
-    const expectedCompletionList = [
-      { label: 'a root action', kind: vscode.CompletionItemKind.Constant },
-      { label: 'a simple root action', kind: vscode.CompletionItemKind.Constant },
-      { label: 'another root action', kind: vscode.CompletionItemKind.Constant },
-      { label: 'not the third root action', kind: vscode.CompletionItemKind.Constant },
-    ];
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const pos = new vscode.Position(3, 23);
     const actualCompletionList = await vscode.commands.executeCommand<vscode.CompletionList>(
       'vscode.executeCompletionItemProvider',
@@ -83,6 +84,7 @@ describe('Autocomplete', function() {
   });
 
   it('should suggest then steps from existing feature files', async function() {
+    this.timeout(5000);
     const expectedCompletionList = [
       { label: 'a root result', kind: vscode.CompletionItemKind.Constant },
       { label: 'a simple root result', kind: vscode.CompletionItemKind.Constant },
@@ -97,6 +99,7 @@ describe('Autocomplete', function() {
       language: 'gherkin',
     });
     await vscode.window.showTextDocument(featureFile);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const pos = new vscode.Position(3, 23);
     const actualCompletionList = await vscode.commands.executeCommand<vscode.CompletionList>(
       'vscode.executeCompletionItemProvider',
