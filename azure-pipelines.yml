@@ -27,10 +27,10 @@ jobs:
           verbose: false
           workingDir: server
       - task: Npm@1
-        displayName: "build"
+        displayName: "build the extension"
         inputs:
           command: custom
-          customCommand: build
+          customCommand: "run build"
       - script: "node client/node_modules/vscode/bin/test"
         displayName: "run tests"
         env:
