@@ -96,10 +96,14 @@ jobs:
         inputs:
           verbose: false
           workingDir: server
-      - task: DownloadPipelineArtifacts@0
+      - task: DownloadPipelineArtifact@0
         inputs:
           artifactName: "GherkinEditor"
           targetPath: $(Build.Repository.LocalPath)/client/out
+      - task: DownloadPipelineArtifact@0
+        inputs:
+          artifactName: "GherkinServer"
+          targetPath: $(Build.Repository.LocalPath)/server/out
       - script: "node client/node_modules/vscode/bin/test"
         displayName: "run tests"
         env:
@@ -131,6 +135,10 @@ jobs:
         inputs:
           artifactName: "GherkinEditor"
           targetPath: $(Build.Repository.LocalPath)/client/out
+      - task: DownloadPipelineArtifact@0
+        inputs:
+          artifactName: "GherkinServer"
+          targetPath: $(Build.Repository.LocalPath)/server/out
       - script: |
           set -e
           /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
