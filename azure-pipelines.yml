@@ -159,7 +159,7 @@ jobs:
       - script: "node client/node_modules/vscode/bin/test"
         displayName: "run tests"
         env:
-          DISPLAY: 10
+          DISPLAY: :10
           CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
           CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
           CODE_DISABLE_EXTENSIONS: true
