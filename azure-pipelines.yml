@@ -52,6 +52,10 @@ jobs:
         inputs:
           versionSpec: 10.x
       - task: Npm@1
+        displayName: "Install dev dependencies"
+        inputs:
+          verbose: false
+      - task: Npm@1
         displayName: "Install client dependencies"
         inputs:
           verbose: false
@@ -87,6 +91,10 @@ jobs:
         inputs:
           versionSpec: 10.x
       - task: Npm@1
+        displayName: "Install dev dependencies"
+        inputs:
+          verbose: false
+      - task: Npm@1
         displayName: "Install client dependencies"
         inputs:
           verbose: false
@@ -121,6 +129,10 @@ jobs:
         displayName: "Use Node 10"
         inputs:
           versionSpec: 10.x
+      - task: Npm@1
+        displayName: "Install dev dependencies"
+        inputs:
+          verbose: false
       - task: Npm@1
         displayName: "Install client dependencies"
         inputs:
