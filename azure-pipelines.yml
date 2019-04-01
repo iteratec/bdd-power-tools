@@ -33,6 +33,10 @@ jobs:
           customCommand: build
       - script: "node client/node_modules/vscode/bin/test"
         displayName: "run tests"
+        env:
+          CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
+          CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
+          CODE_DISABLE_EXTENSIONS: $(True)
 
   - job: Linux
     pool:
