@@ -17,7 +17,7 @@ In addition autocomplete for gherkin keywords helps building syntactically corre
 
 This extension contributes the following settings:
 
--   `bddPowerTools.language`: the spolen langauge the scenarios are written in
+-   `bddPowerTools.language`: the spoken langauge the scenarios are written in
     > Note: Starting with version 1.0.0, the default language has been switched to `en`.
 
 ## Issues

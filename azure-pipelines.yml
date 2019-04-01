@@ -2,52 +2,88 @@
 # Build a general Node.js application with npm.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/vsts/pipelines/languages/javascript
+jobs:
+  - job: Windows
+    pool:
+      name: Hosted VS2017
+      demands: npm
+    steps:
+      - task: NodeTool@0
+        displayName: "Use Node 10"
+        inputs:
+          versionSpec: 10.x
+      - task: Npm@1
+        displayName: "Install dev dependencies"
+        inputs:
+          verbose: false
+      - task: Npm@1
+        displayName: "Install client dependencies"
+        inputs:
+          verbose: false
+          workingDir: client
+      - task: Npm@1
+        displayName: "Install server dependencies"
+        inputs:
+          verbose: false
+          workingDir: server
+      - task: Npm@1
+        displayName: "build"
+        inputs:
+          command: custom
+          customCommand: build
+      - script: "node client/node_modules/vscode/bin/test"
+        displayName: "run tests"
 
-pool:
-  vmImage: "Ubuntu 16.04"
+  - job: Linux
+    pool:
+      name: Hosted Ubuntu 1604
+      demands: npm
+    steps:
+      - task: NodeTool@0
+        displayName: "Use Node 10"
+        inputs:
+          versionSpec: 10.x
+      - script: |
+          npm ci
+          cd client
+          npm ci
+          cd ../server
+          npm ci
+          cd ..
+        displayName: "npm install dependencies"
+        env:
+          NPM_TOKEN: $(NPMTOKEN)
 
-steps:
-  - script: |
-      npm ci
-      cd client
-      npm ci
-      cd ../server
-      npm ci
-      cd ..
-    displayName: "npm install dependencies"
-    env:
-      NPM_TOKEN: $(NPMTOKEN)
+      - script: |
+          npm run build
+        displayName: "build"
+        env:
+          NPM_TOKEN: $(NPMTOKEN)
 
-  - script: |
-      npm run build
-    displayName: "build"
-    env:
-      NPM_TOKEN: $(NPMTOKEN)
+      # - script: |
+      #     set -e
+      #     /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
+      #     disown -ar
+      #   displayName: "start xvfb"
 
-  # - script: |
-  #     set -e
-  #     /usr/bin/Xvfb :10 -ac >> /tmp/Xvfb.out 2>&1 &
-  #     disown -ar
-  #   displayName: "start xvfb"
+      # - script: "node client/node_modules/vscode/bin/test"
+      #   displayName: "run tests"
+      #   env:
+      #     DISPLAY: 10
+      #     CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
+      #     CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
+      #     CODE_DISABLE_EXTENSIONS: $(True)
 
-  # - script: "node client/node_modules/vscode/bin/test"
-  #   displayName: "run tests"
-  #   env:
-  #     DISPLAY: 10
-  #     CODE_TESTS_PATH: $(Build.Repository.LocalPath)/client/out/test
-  #     CODE_TESTS_WORKSPACE: $(Build.Repository.LocalPath)/client/src/e2e
-  #     CODE_DISABLE_EXTENSIONS: $(True)
+      - script: |
+          npm i vsce --no-save
+        displayName: "npm install tooling"
+        env:
+          NPM_TOKEN: $(NPMTOKEN)
 
-  - script: |
-      npm i vsce --no-save
-    displayName: "npm install tooling"
-    env:
-      NPM_TOKEN: $(NPMTOKEN)
-
-  - script: |
-      npm run release:ci
-    displayName: "release"
-    env:
-      NPM_TOKEN: $(NPMTOKEN)
-      GITHUB_TOKEN: $(GITHUBTOKEN)
-      PAT: $(AZUREDEVOPSTOKEN)
+      - script: |
+          npm run release:ci
+        displayName: "release"
+        env:
+          NPM_TOKEN: $(NPMTOKEN)
+          GITHUB_TOKEN: $(GITHUBTOKEN)
+          PAT: $(AZUREDEVOPSTOKEN)
