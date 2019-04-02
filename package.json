@@ -1,6 +1,6 @@
 {
   "name": "bdd-power-tools",
-  "displayName": "BDD-Power-Tools",
+  "displayName": "BDD - Feature-Editor",
   "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
   "version": "1.0.0-semantically-released",
   "keywords": [
@@ -36,10 +36,10 @@
   ],
   "contributes": {
     "configuration": {
-      "title": "BDD-Power-Tools",
+      "title": "BDD - Feature-Editor",
       "type": "object",
       "properties": {
-        "bddPowerTools.language": {
+        "bddFeatureEditor.language": {
           "scope": "resource",
           "type": "string",
           "default": "en",

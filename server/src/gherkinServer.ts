@@ -44,7 +44,7 @@ connection.onInitialize(async (params: InitializeParams) => {
 connection.onInitialized(() => {
   if (hasConfigurationCapability) {
     connection.client.register(DidChangeConfigurationNotification.type, {
-      section: 'bddPowerTools',
+      section: 'bddFeatureEditor',
     });
   }
   if (hasWorkspaceFolderCapability) {
@@ -124,7 +124,7 @@ connection.onCompletion(
 
 connection.onDidChangeConfiguration(change => {
   // connection.console.log(`onDidChangeConfiguration: ${change.settings}`);
-  globalSettings = (change.settings.bddPowerTools || defaultSettings) as BddPowerToolsSettings;
+  globalSettings = (change.settings.bddFeatureEditor || defaultSettings) as BddPowerToolsSettings;
   stepStore.initialize(documents, globalSettings.language);
 });
 

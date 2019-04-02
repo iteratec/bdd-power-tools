@@ -45,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
       fileEvents: vscode.workspace.createFileSystemWatcher('**/*.feature'),
     },
   };
-  client = new LanguageClient('bdd-power-tools.gherkin-server', 'BDD-Power-Tools', serverOptions, clientOptions);
+  client = new LanguageClient('bdd-power-tools.gherkin-server', 'BDD - Feature-Editor', serverOptions, clientOptions);
   client.start();
 }
 
