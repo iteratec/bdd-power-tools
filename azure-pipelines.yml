@@ -181,6 +181,10 @@ jobs:
         inputs:
           artifactName: "GherkinEditor"
           targetPath: $(Build.Repository.LocalPath)/client/out
+      - task: DownloadPipelineArtifact@0
+        inputs:
+          artifactName: "GherkinServer"
+          targetPath: $(Build.Repository.LocalPath)/server/out
       - script: |
           npm i vsce --no-save
         displayName: "npm install vsce tooling"
