@@ -9,6 +9,7 @@ import {
   Range,
   TextDocumentPositionParams,
   TextDocuments,
+  TextEdit,
 } from 'vscode-languageserver';
 
 import { BddPowerToolsSettings } from './bddPowerToolsSettings';
@@ -36,6 +37,7 @@ connection.onInitialize(async (params: InitializeParams) => {
       completionProvider: {
         resolveProvider: false,
       },
+      documentFormattingProvider: true,
       textDocumentSync: documents.syncKind,
     },
   };
@@ -131,6 +133,136 @@ connection.onDidChangeConfiguration(change => {
 connection.onDidChangeWatchedFiles(change => {
   // connection.console.log(`ChangeWatchedFiles: ${change.changes.map(c => c.uri).join(' | ')}`);
 });
+
+connection.onDocumentFormatting(
+  (formattingParams): TextEdit[] => {
+    const doc = documents.get(formattingParams.textDocument.uri);
+    const options = formattingParams.options;
+    const textEdit: TextEdit[] = [];
+    if (doc) {
+      let pattern = gherkin.repository.keywords.patterns.find(p => p.name.endsWith(globalSettings.language));
+      let gherkinKeywords = pattern
+        ? pattern.match
+        : gherkin.repository.keywords.patterns.find(p => p.name.endsWith(defaultSettings.language))!.match;
+      gherkinKeywords = gherkinKeywords.substring(1, gherkinKeywords.length - 1);
+      const [
+        keywordFeature,
+        keywordBackground,
+        keywordScenario,
+        keywordScenarioOutline,
+        keywordExamples,
+      ] = gherkinKeywords.split('|');
+      pattern = gherkin.repository.steps.patterns.find(p => p.name.endsWith(globalSettings.language));
+      let stepKeywords = pattern
+        ? pattern.match
+        : gherkin.repository.steps.patterns.find(p => p.name.endsWith(defaultSettings.language))!.match;
+      stepKeywords = stepKeywords.substring(1, stepKeywords.length - 1);
+      const [keywordGiven, keywordWhen, keywordThen, keywordAnd, keywordBut] = stepKeywords.split('|');
+      let docStringStartline = -1;
+      for (let lineNumber = 0; lineNumber < doc.lineCount; lineNumber++) {
+        const lineRange = Range.create(Position.create(lineNumber, 0), Position.create(lineNumber + 1, 0));
+        const line = doc.getText(lineRange);
+        const regexp = `^(\\s*)(# language:|${gherkinKeywords}|${stepKeywords}|\\||"{3}).*`;
+        const match = new RegExp(regexp).exec(line);
+        if (match) {
+          switch (match[2]) {
+            case '# language:':
+            case keywordFeature:
+              if (match[1]) {
+                textEdit.push(
+                  TextEdit.del(
+                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
+                  ),
+                );
+              }
+              break;
+            case keywordBackground:
+            case keywordScenario:
+            case keywordScenarioOutline:
+            case keywordExamples:
+              if (match[1]) {
+                let spacing: string;
+                if (options.insertSpaces) {
+                  spacing = new Array(options.tabSize).fill(' ').join('');
+                } else {
+                  spacing = '\t';
+                }
+                textEdit.push(
+                  TextEdit.replace(
+                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
+                    spacing,
+                  ),
+                );
+              }
+              break;
+            case keywordAnd:
+            case keywordBut:
+            case keywordGiven:
+            case keywordThen:
+            case keywordWhen:
+              if (match[1]) {
+                let spacing: string;
+                if (options.insertSpaces) {
+                  spacing = new Array(options.tabSize * 2).fill(' ').join('');
+                } else {
+                  spacing = '\t\t';
+                }
+                textEdit.push(
+                  TextEdit.replace(
+                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
+                    spacing,
+                  ),
+                );
+              }
+              break;
+            case '|':
+              if (match[1]) {
+                let spacing: string;
+                if (options.insertSpaces) {
+                  spacing = new Array(options.tabSize * 3).fill(' ').join('');
+                } else {
+                  spacing = new Array(3).fill('\t').join('');
+                }
+                textEdit.push(
+                  TextEdit.replace(
+                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
+                    spacing,
+                  ),
+                );
+              }
+              break;
+            case '"""':
+              if (match[1]) {
+                let spacing: string;
+                if (docStringStartline < 0) {
+                  docStringStartline = lineNumber;
+                } else {
+                  if (options.insertSpaces) {
+                    spacing = new Array(options.tabSize * 3).fill(' ').join('');
+                  } else {
+                    spacing = new Array(3).fill('\t').join('');
+                  }
+                  for (let docstringline = docStringStartline; docstringline <= lineNumber; docstringline++) {
+                    textEdit.push(
+                      TextEdit.replace(
+                        Range.create(
+                          Position.create(docstringline, 0),
+                          Position.create(docstringline, match[1].length),
+                        ),
+                        spacing,
+                      ),
+                    );
+                  }
+                }
+              }
+              break;
+          }
+        }
+      }
+    }
+    return textEdit;
+  },
+);
 
 // documents.onDidChangeContent(change => {
 //   connection.console.log(`ChangeContent: ${change.document.uri}`);
