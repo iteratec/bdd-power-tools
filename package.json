@@ -2,7 +2,7 @@
   "name": "bdd-power-tools",
   "displayName": "BDD - Feature-Editor",
   "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
-  "version": "1.0.0-semantically-released",
+  "version": "1.1.0",
   "keywords": [
     "gherkin",
     "feature",
