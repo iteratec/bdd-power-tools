@@ -159,16 +159,36 @@ connection.onDocumentFormatting(
       stepKeywords = stepKeywords.substring(1, stepKeywords.length - 1);
       const [keywordGiven, keywordWhen, keywordThen, keywordAnd, keywordBut] = stepKeywords.split('|');
       let docStringStartline = -1;
+      let hasTag = false;
+      let tagPosition = 0;
+      let tagLine = 0;
+      let hasComment = false;
+      let commentPosition = 0;
+      let commentLine = 0;
       for (let lineNumber = 0; lineNumber < doc.lineCount; lineNumber++) {
         const lineRange = Range.create(Position.create(lineNumber, 0), Position.create(lineNumber + 1, 0));
         const line = doc.getText(lineRange);
-        const regexp = `^(\\s*)(# language:|${gherkinKeywords}|${stepKeywords}|\\||"{3}).*`;
+        const regexp = `^(\\s*)(# language:|${gherkinKeywords}|${stepKeywords}|\\||"{3}|@|#).*`;
         const match = new RegExp(regexp).exec(line);
         if (match) {
           switch (match[2]) {
             case '# language:':
             case keywordFeature:
               if (match[1]) {
+                if (hasTag) {
+                  textEdit.push(
+                    TextEdit.del(Range.create(Position.create(tagLine, 0), Position.create(tagLine, tagPosition))),
+                  );
+                  hasTag = false;
+                }
+                if (hasComment) {
+                  textEdit.push(
+                    TextEdit.del(
+                      Range.create(Position.create(commentLine, 0), Position.create(commentLine, commentPosition)),
+                    ),
+                  );
+                  hasComment = false;
+                }
                 textEdit.push(
                   TextEdit.del(
                     Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
@@ -186,6 +206,24 @@ connection.onDocumentFormatting(
                   spacing = new Array(options.tabSize).fill(' ').join('');
                 } else {
                   spacing = '\t';
+                }
+                if (hasTag) {
+                  textEdit.push(
+                    TextEdit.replace(
+                      Range.create(Position.create(tagLine, 0), Position.create(tagLine, tagPosition)),
+                      spacing,
+                    ),
+                  );
+                  hasTag = false;
+                }
+                if (hasComment) {
+                  textEdit.push(
+                    TextEdit.replace(
+                      Range.create(Position.create(commentLine, 0), Position.create(commentLine, commentPosition)),
+                      spacing,
+                    ),
+                  );
+                  hasComment = false;
                 }
                 textEdit.push(
                   TextEdit.replace(
@@ -254,6 +292,20 @@ connection.onDocumentFormatting(
                     );
                   }
                 }
+              }
+              break;
+            case '@':
+              if (match[1]) {
+                hasTag = true;
+                tagPosition = match[1].length;
+                tagLine = lineNumber;
+              }
+              break;
+            case '#':
+              if (match[1]) {
+                hasComment = true;
+                commentPosition = match[1].length;
+                commentLine = lineNumber;
               }
               break;
           }

@@ -17,28 +17,36 @@ describe('Formatting', function() {
     this.timeout(3000);
     const expectedTextEdits = [
       vscode.TextEdit.delete(new vscode.Range(new vscode.Position(1, 0), new vscode.Position(1, 6))), // language
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(2, 0), new vscode.Position(2, 6))), // Feature
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(4, 2), new vscode.Position(4, 6))), // Background
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(5, 4), new vscode.Position(5, 6))), // Given
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(7, 2), new vscode.Position(7, 6))), // Scenario
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(8, 4), new vscode.Position(8, 6))), // When
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(9, 4), new vscode.Position(9, 6))), // Then
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(10, 4), new vscode.Position(10, 6))), // And
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(11, 4), new vscode.Position(11, 6))), // And
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(12, 6), new vscode.Position(12, 8))), // docstring
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(13, 6), new vscode.Position(13, 8))), // docstring
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(14, 6), new vscode.Position(14, 8))), // docstring
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(15, 4), new vscode.Position(15, 6))), // But
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(16, 6), new vscode.Position(16, 8))), // table
-      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(17, 6), new vscode.Position(17, 8))), // table
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(2, 0), new vscode.Position(2, 6))), // comment 1
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(3, 0), new vscode.Position(3, 6))), // tag 1
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(4, 0), new vscode.Position(4, 6))), // Feature
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(6, 2), new vscode.Position(6, 6))), // Background
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(7, 4), new vscode.Position(7, 6))), // Given
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(9, 2), new vscode.Position(9, 6))), // tag 2
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(10, 2), new vscode.Position(10, 6))), // comment 2
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(11, 2), new vscode.Position(11, 6))), // Scenario
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(12, 4), new vscode.Position(12, 6))), // When
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(13, 4), new vscode.Position(13, 6))), // Then
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(14, 4), new vscode.Position(14, 6))), // And
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(15, 4), new vscode.Position(15, 6))), // And
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(16, 6), new vscode.Position(16, 8))), // docstring
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(17, 6), new vscode.Position(17, 8))), // docstring
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(18, 6), new vscode.Position(18, 8))), // docstring
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(19, 4), new vscode.Position(19, 6))), // But
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(20, 6), new vscode.Position(20, 8))), // table
+      vscode.TextEdit.delete(new vscode.Range(new vscode.Position(21, 6), new vscode.Position(21, 8))), // table
     ];
     const document = `
       # language: en
+      # some comment
+      @ some tag
       Feature: a unformatted Feature
 
       Background:
       Given some precondition
 
+      @ another tag
+      # another comment
       Scenario: an unformatted scenario
       When I format the whole document
       Then Gherkin keywords are indented
