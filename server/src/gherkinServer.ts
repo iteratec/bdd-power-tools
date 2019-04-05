@@ -171,6 +171,8 @@ connection.onDocumentFormatting(
         const regexp = `^(\\s*)(# language:|${gherkinKeywords}|${stepKeywords}|\\||"{3}|@|#).*`;
         const match = new RegExp(regexp).exec(line);
         if (match) {
+          let spacing: string;
+          let matchPosition: number;
           switch (match[2]) {
             case '# language:':
             case keywordFeature:
@@ -200,113 +202,100 @@ connection.onDocumentFormatting(
             case keywordScenario:
             case keywordScenarioOutline:
             case keywordExamples:
-              if (match[1]) {
-                let spacing: string;
-                if (options.insertSpaces) {
-                  spacing = new Array(options.tabSize).fill(' ').join('');
-                } else {
-                  spacing = '\t';
-                }
-                if (hasTag) {
-                  textEdit.push(
-                    TextEdit.replace(
-                      Range.create(Position.create(tagLine, 0), Position.create(tagLine, tagPosition)),
-                      spacing,
-                    ),
-                  );
-                  hasTag = false;
-                }
-                if (hasComment) {
-                  textEdit.push(
-                    TextEdit.replace(
-                      Range.create(Position.create(commentLine, 0), Position.create(commentLine, commentPosition)),
-                      spacing,
-                    ),
-                  );
-                  hasComment = false;
-                }
+              matchPosition = match[1] ? match[1].length : 0;
+              if (options.insertSpaces) {
+                spacing = new Array(options.tabSize).fill(' ').join('');
+              } else {
+                spacing = '\t';
+              }
+              if (hasTag) {
                 textEdit.push(
                   TextEdit.replace(
-                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
+                    Range.create(Position.create(tagLine, 0), Position.create(tagLine, tagPosition)),
                     spacing,
                   ),
                 );
+                hasTag = false;
               }
+              if (hasComment) {
+                textEdit.push(
+                  TextEdit.replace(
+                    Range.create(Position.create(commentLine, 0), Position.create(commentLine, commentPosition)),
+                    spacing,
+                  ),
+                );
+                hasComment = false;
+              }
+              textEdit.push(
+                TextEdit.replace(
+                  Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, matchPosition)),
+                  spacing,
+                ),
+              );
               break;
             case keywordAnd:
             case keywordBut:
             case keywordGiven:
             case keywordThen:
             case keywordWhen:
-              if (match[1]) {
-                let spacing: string;
-                if (options.insertSpaces) {
-                  spacing = new Array(options.tabSize * 2).fill(' ').join('');
-                } else {
-                  spacing = '\t\t';
-                }
-                textEdit.push(
-                  TextEdit.replace(
-                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
-                    spacing,
-                  ),
-                );
+              matchPosition = match[1] ? match[1].length : 0;
+              if (options.insertSpaces) {
+                spacing = new Array(options.tabSize * 2).fill(' ').join('');
+              } else {
+                spacing = '\t\t';
               }
+              textEdit.push(
+                TextEdit.replace(
+                  Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, matchPosition)),
+                  spacing,
+                ),
+              );
               break;
             case '|':
-              if (match[1]) {
-                let spacing: string;
+              matchPosition = match[1] ? match[1].length : 0;
+              if (options.insertSpaces) {
+                spacing = new Array(options.tabSize * 3).fill(' ').join('');
+              } else {
+                spacing = new Array(3).fill('\t').join('');
+              }
+              textEdit.push(
+                TextEdit.replace(
+                  Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, matchPosition)),
+                  spacing,
+                ),
+              );
+              break;
+            case '"""':
+              matchPosition = match[1] ? match[1].length : 0;
+              if (docStringStartline < 0) {
+                docStringStartline = lineNumber;
+              } else {
                 if (options.insertSpaces) {
                   spacing = new Array(options.tabSize * 3).fill(' ').join('');
                 } else {
                   spacing = new Array(3).fill('\t').join('');
                 }
-                textEdit.push(
-                  TextEdit.replace(
-                    Range.create(Position.create(lineNumber, 0), Position.create(lineNumber, match[1].length)),
-                    spacing,
-                  ),
-                );
-              }
-              break;
-            case '"""':
-              if (match[1]) {
-                let spacing: string;
-                if (docStringStartline < 0) {
-                  docStringStartline = lineNumber;
-                } else {
-                  if (options.insertSpaces) {
-                    spacing = new Array(options.tabSize * 3).fill(' ').join('');
-                  } else {
-                    spacing = new Array(3).fill('\t').join('');
-                  }
-                  for (let docstringline = docStringStartline; docstringline <= lineNumber; docstringline++) {
-                    textEdit.push(
-                      TextEdit.replace(
-                        Range.create(
-                          Position.create(docstringline, 0),
-                          Position.create(docstringline, match[1].length),
-                        ),
-                        spacing,
-                      ),
-                    );
-                  }
+                for (let docstringline = docStringStartline; docstringline <= lineNumber; docstringline++) {
+                  textEdit.push(
+                    TextEdit.replace(
+                      Range.create(Position.create(docstringline, 0), Position.create(docstringline, match[1].length)),
+                      spacing,
+                    ),
+                  );
                 }
               }
               break;
             case '@':
-              if (match[1]) {
-                hasTag = true;
-                tagPosition = match[1].length;
-                tagLine = lineNumber;
-              }
+              matchPosition = match[1] ? match[1].length : 0;
+              hasTag = true;
+              tagPosition = match[1].length;
+              tagLine = lineNumber;
               break;
             case '#':
-              if (match[1]) {
-                hasComment = true;
-                commentPosition = match[1].length;
-                commentLine = lineNumber;
-              }
+              matchPosition = match[1] ? match[1].length : 0;
+              hasComment = true;
+              commentPosition = match[1].length;
+              commentLine = lineNumber;
               break;
           }
         }
