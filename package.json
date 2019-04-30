@@ -16,8 +16,8 @@
   "badges": [
     {
       "description": "Build Status",
-      "href": "https://dev.azure.com/bddpowertools/bddpowertools/_build/latest?definitionId=1",
-      "url": "https://dev.azure.com/bddpowertools/bddpowertools/_apis/build/status/iteratec.bdd-power-tools"
+      "href": "https://dev.azure.com/iteratec-oss-bdd/bddpowertools/_build/latest?definitionId=1",
+      "url": "https://dev.azure.com/iteratec-oss-bdd/bddpowertools/_apis/build/status/iteratec.bdd-power-tools"
     },
     {
       "description": "semantic-release",
