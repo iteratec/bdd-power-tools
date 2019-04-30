@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/iteratec/bdd-power-tools/compare/v1.0.2...v1.1.0) (2019-04-05)
+
+
+### Bug Fixes
+
+* **formatting:** fixes indentation ([ea5ff80](https://github.com/iteratec/bdd-power-tools/commit/ea5ff80))
+
+
+### Features
+
+* **formatting:** formats feature files ([4ca65b2](https://github.com/iteratec/bdd-power-tools/commit/4ca65b2))
+* **formatting:** formats tags and comments in a document ([f415ece](https://github.com/iteratec/bdd-power-tools/commit/f415ece))
+
 ## [1.0.2](https://github.com/iteratec/bdd-power-tools/compare/v1.0.1...v1.0.2) (2019-01-21)
 
 
