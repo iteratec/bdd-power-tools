@@ -59,7 +59,7 @@
 					"name": "keyword.control.gherkin.de",
 					"match": "(Funktionalität:|Grundlage:|Szenario:|Szenariogrundriss:|Beispiele:)"
 			  }, {
-					"name": "keyword.control.gherkin.pt-BR",
+					"name": "keyword.control.gherkin.pt",
 					"match": "(Funcionalidade:|Segundo plano:|Cenário:|Esboço do cenário:|Exemplos:)"
 			}]
 		},
@@ -77,7 +77,7 @@
 					"name": "keyword.other.gherkin.de",
 					"match": "(Angenommen|Wenn|Dann|Und|Aber)"
 			   }, {
-					"name": "keyword.other.gherkin.pt-BR",
+					"name": "keyword.other.gherkin.pt",
 					"match": "(Dado|Quando|Então|E|Mas)"
 			}]
 		},
