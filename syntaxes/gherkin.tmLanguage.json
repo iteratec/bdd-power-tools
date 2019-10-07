@@ -58,10 +58,13 @@
 				}, {
 					"name": "keyword.control.gherkin.de",
 					"match": "(Funktionalität:|Grundlage:|Szenario:|Szenariogrundriss:|Beispiele:)"
-			  }, {
+			  	}, {
 					"name": "keyword.control.gherkin.pt",
 					"match": "(Funcionalidade:|Segundo plano:|Cenário:|Esboço do cenário:|Exemplos:)"
-			}]
+				}, {
+					"name": "keyword.control.gherkin.no",
+					"match": "(Feature:|Bakgrunn:|Scenario:|Scenario omriss:|Eksempel:)"
+				}]
 		},
 		"languages": {
 			"patterns": [{
@@ -73,13 +76,16 @@
 			"patterns": [{
 					"name": "keyword.other.gherkin.en",
 					"match": "(Given|When|Then|And|But)"
-				 }, {
+				}, {
 					"name": "keyword.other.gherkin.de",
 					"match": "(Angenommen|Wenn|Dann|Und|Aber)"
-			   }, {
+			   	}, {
 					"name": "keyword.other.gherkin.pt",
 					"match": "(Dado|Quando|Então|E|Mas)"
-			}]
+				}, {
+					"name": "keyword.other.gherkin.no",
+					"match": "(Gitt|Når|Så|Og|Men)"
+				}]
 		},
 		"strings": {
 			"name": "string.quoted.double.gherkin",
