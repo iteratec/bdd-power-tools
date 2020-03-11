@@ -60,7 +60,7 @@
 					"match": "(Funktionalität:|Grundlage:|Szenario:|Szenariogrundriss:|Beispiele:)"
 			  }, {
 					"name": "keyword.control.gherkin.pt",
-					"match": "(Funcionalidade:|Segundo plano:|Cenário:|Esboço do cenário:|Exemplos:)"
+					"match": "(Funcionalidade:|Segundo plano:|Cenário:|Esquema do Cenário:|Exemplos:)"
 			}]
 		},
 		"languages": {
