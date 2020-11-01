@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "src/testing/**/*"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "../../dist/feature-editor"
+  }
+}

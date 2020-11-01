@@ -1,0 +1,129 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Gherkin",
+  "patterns": [
+    {
+      "include": "#annotations"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#docStrings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#languages"
+    },
+    {
+      "include": "#steps"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#tables"
+    },
+    {
+      "include": "#templateVars"
+    }
+  ],
+  "repository": {
+    "annotations": {
+      "patterns": [
+        {
+          "name": "entity.other.attribute-name",
+          "match": "@.*"
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line",
+          "match": "#(?! language:).*"
+        }
+      ]
+    },
+    "docStrings": {
+      "name": "string.quoted.docString.gherkin",
+      "patterns": [
+        {
+          "begin": "\"{3}",
+          "end": "\"{3}",
+          "name": "constant.sha.git-rebase"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.gherkin.en",
+          "match": "(Feature:|Background:|Scenario:|Scenario Outline:|Examples:)"
+        },
+        {
+          "name": "keyword.control.gherkin.de",
+          "match": "(Funktionalität:|Grundlage:|Szenario:|Szenariogrundriss:|Beispiele:)"
+        },
+        {
+          "name": "keyword.control.gherkin.pt",
+          "match": "(Funcionalidade:|Segundo plano:|Cenário:|Esboço do cenário:|Exemplos:)"
+        }
+      ]
+    },
+    "languages": {
+      "patterns": [
+        {
+          "name": "constant.regexp",
+          "match": "# language: [a-z]{2}"
+        }
+      ]
+    },
+    "steps": {
+      "patterns": [
+        {
+          "name": "keyword.other.gherkin.en",
+          "match": "(Given|When|Then|And|But)"
+        },
+        {
+          "name": "keyword.other.gherkin.de",
+          "match": "(Angenommen|Wenn|Dann|Und|Aber)"
+        },
+        {
+          "name": "keyword.other.gherkin.pt",
+          "match": "(Dado|Quando|Então|E|Mas)"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.gherkin",
+      "patterns": [
+        {
+          "name": "string.quoted.double",
+          "match": "\".*\""
+        }
+      ]
+    },
+    "tables": {
+      "name": "entity.name.type.gherkin",
+      "patterns": [
+        {
+          "begin": "\\|",
+          "end": "\\|\\n",
+          "name": "entity.name.type"
+        }
+      ]
+    },
+    "templateVars": {
+      "patterns": [
+        {
+          "name": "variable.name",
+          "match": "<\\w*>"
+        }
+      ]
+    }
+  },
+  "scopeName": "text.gherkin"
+}

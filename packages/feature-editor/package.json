@@ -1,0 +1,53 @@
+{
+  "name": "bdd-power-tools",
+  "version": "1.0.0",
+  "displayName": "BDD Feature Editor",
+  "description": "Autocompletion and syntax highlighting for Gherkin steps in .feature-files",
+  "author": "christoph.murczek@iteratec.com",
+  "publisher": "iteratec",
+  "repository": "https://github.com/iteratec/bdd-power-tools.git",
+  "bugs": "https://github.com/iteratec/bdd-power-tools/issues",
+  "badges": [
+    {
+      "description": "Build Status",
+      "href": "https://dev.azure.com/bdd-power-tools/bddpowertools/_build/latest?definitionId=1&branchName=main",
+      "url": "https://dev.azure.com/bdd-power-tools/bddpowertools/_apis/build/status/bdd-feature-editor?branchName=main"
+    },
+    {
+      "description": "Semantic Release",
+      "href": "https://github.com/semantic-release/semantic-release",
+      "url": "https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"
+    }
+  ],
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/*.feature"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "gherkin",
+        "aliases": [
+          "Gherkin",
+          "gherkin"
+        ],
+        "extensions": [
+          ".feature"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gherkin",
+        "scopeName": "text.gherkin",
+        "path": "./syntaxes/gherkin.tmLanguage.json"
+      }
+    ]
+  }
+}
