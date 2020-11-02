@@ -10,6 +10,7 @@
     "project": ["packages/**/tsconfig.json", "packages/**/tsconfig.spec.json"],
     "sourceType": "module"
   },
+  "ignorePatterns": ["dist/**/*", "*.config.js"],
   "plugins": ["@typescript-eslint"],
   "rules": {
     "sort-imports": "error"

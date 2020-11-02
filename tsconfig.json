@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/feature-editor/tsconfig.json" },
+    { "path": "packages/gherkin-language-server/tsconfig.json" }
+  ]
+}

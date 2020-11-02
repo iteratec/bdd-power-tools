@@ -7,6 +7,7 @@
   "publisher": "iteratec",
   "repository": "https://github.com/iteratec/bdd-power-tools.git",
   "bugs": "https://github.com/iteratec/bdd-power-tools/issues",
+  "main": "lib/extension.js",
   "badges": [
     {
       "description": "Build Status",
@@ -48,6 +49,25 @@
         "scopeName": "text.gherkin",
         "path": "./syntaxes/gherkin.tmLanguage.json"
       }
+    ],
+    "configuration": [
+      {
+        "properties": {
+          "gherkin.defaultDialect": {
+            "description": "The default language used in your feature files",
+            "scope": "resource",
+            "type": "string",
+            "default": "en"
+          }
+        }
+      }
     ]
+  },
+  "dependencies": {
+    "vscode-languageclient": "^6.1.3",
+    "gherkin-language-server": "*"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.50.0"
   }
 }
