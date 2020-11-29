@@ -413,7 +413,6 @@ describe('Gherkin Server', () => {
       expect(edits).toEqual(expected);
     });
 
-    it.todo("should not change the indentation of the Doc String's content");
     it.todo('should set correct indentation for data tables');
     it.todo('should adjust column width in data tables to match the widest cell in the column');
   });

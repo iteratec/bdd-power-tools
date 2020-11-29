@@ -1,12 +1,17 @@
 {
   "name": "gherkin-language-server",
-  "version": "1.0.0",
+  "version": "0.0.9",
   "displayName": "Gherkin Language Server",
   "description": "A language server for the gherkin language",
+  "license": "MIT",
   "author": "christoph.murczek@iteartec.com",
   "publisher": "iteratec",
   "repository": "https://github.com/iteratec/bdd-power-tools.git",
   "bugs": "https://github.com/iteratec/bdd-power-tools/issues",
+  "directories": {
+    "bin": "bin",
+    "lib": "dist"
+  },
   "keywords": [
     "gherkin",
     "language server",

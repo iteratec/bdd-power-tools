@@ -1,7 +1,10 @@
 {
   "files": [],
+  "compilerOptions": {
+    "baseUrl": "./"
+  },
   "references": [
-    { "path": "packages/feature-editor/tsconfig.json" },
-    { "path": "packages/gherkin-language-server/tsconfig.json" }
+    { "path": "packages/gherkin-language-server/tsconfig.json" },
+    { "path": "packages/feature-editor/tsconfig.json" }
   ]
 }

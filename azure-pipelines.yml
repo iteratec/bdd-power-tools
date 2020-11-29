@@ -1,0 +1,115 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: build
+    jobs:
+      - job: install
+        displayName: Install dependencies
+        steps:
+          - task: Cache@2
+            displayName: cache yarn packages
+            inputs:
+              key: 'yarn | "$(Agent.OS)" | yarn.lock'
+              restoreKeys: |
+                yarn | "$(Agent.OS)"
+              path: $(YARN_CACHE_FOLDER)
+          - script: yarn --frozen-lockfile
+
+      - job: test
+        displayName: run unit tests
+        steps:
+          - script: yarn test
+
+      - job: build
+        displayName: build packages
+        steps:
+          - script: yarn webpack
+
+      - job: archiveArtifacts
+        displayName: publish package to pipeline
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              ArtifactName: drop
+              publishLocation: Container
+              PathtoPublish: dist
+
+  - stage: release
+    dependsOn: build
+    condition: eq(variables['build.sourceBranch'], 'refs/heads/main')
+    jobs:
+      - job: install
+        displayName: Install dependencies
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              artifactName: drop
+              itemPattern: '**/*'
+          - task: Cache@2
+            displayName: cache yarn dependencies
+            inputs:
+              key: 'yarn | "$(Agent.OS)" | yarn.lock'
+              restoreKeys: |
+                yarn | "$(Agent.OS)"
+              path: $(YARN_CACHE_FOLDER)
+          - script: yarn --frozen-lockfile
+
+      - job: release
+        displayName: release new version
+        steps:
+          - script: yarn release
+
+      - job: publishServer
+        displayName: publish gherkin-language-server
+        steps:
+          - script: yarn workspace gherkin-language-server publish
+
+      - job: prepareExtensionPublishing
+        displayName: prepare for publishing the extension
+        steps:
+          - script: |
+              echo "use the same workaround as svelte https://github.com/sveltejs/language-tools/blob/master/.github/workflows/DeployExtensionsProd.yml until https://github.com/microsoft/vscode-vsce/pull/493 is merged."
+              rm package.json
+              cd packages/feature-editor
+              yarn
+
+      - job: packageExtension
+        displayName: create vsix package
+        steps:
+          - script: npx vsce package
+
+      - job: integration
+        displayName: integration tests
+        steps:
+          - script: code --install-extension bdd-power-tools-$(version).vsix
+          - script: |
+              /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+              echo ">>> started xvfb"
+            displayName: start xvfb
+            condition: and(succeeded(), eq(variables[Agent.OS], 'Linux'))
+          - script:
+            displayName: run integration tests
+            env:
+              DISPLAY: ':99.0'
+
+      - job: publish
+        displayName: publish extension
+        steps:
+          - script: yarn deploy
+            displayName: publish language server package
+            env:
+              NPM_TOKEN: $(NPM_TOKEN)
+              GH_TOKEN: $(GH_TOKEN)
+          - script: npx vsce publish -p VSCE_PAT
+            env:
+              VSCE_PAT: $(VSCE_PAT_BDD_POWER_TOOLS)

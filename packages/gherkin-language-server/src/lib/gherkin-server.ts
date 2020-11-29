@@ -4,7 +4,6 @@ import {
   DidChangeConfigurationParams,
   DidChangeWorkspaceFoldersNotification,
   DocumentFormattingParams,
-  IConnection,
   InitializeParams,
   InitializeResult,
   Position,
@@ -13,6 +12,7 @@ import {
   TextDocumentSyncKind,
   TextDocuments,
   TextEdit,
+  createConnection,
 } from 'vscode-languageserver';
 import { GherkinStreams, IGherkinOptions, makeSourceEnvelope } from '@cucumber/gherkin';
 import { GherkinServerOptions } from './gherkin-server-options';
@@ -27,7 +27,7 @@ export class GherkinServer {
   private gherkinSettings: GherkinServerOptions;
   private documentSettings = new Map<string, Thenable<GherkinServerOptions>>();
 
-  constructor(private connection: IConnection, private documentManager: TextDocuments<TextDocument>) {
+  constructor(private connection = createConnection(), private documentManager = new TextDocuments(TextDocument)) {
     this.gherkinSettings = {
       defaultDialect: 'en',
       includeGherkinDocument: true,

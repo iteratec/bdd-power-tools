@@ -4,10 +4,14 @@
   "useWorkspaces": true,
   "version": "independent",
   "command": {
+    "version": {
+      "amend": true,
+      "allowBranch": "main",
+      "conventional-commits": true
+    },
     "publish": {
       "allowBranch": "main",
       "contents": "dist",
-      "conventional-commits": true,
       "create-release": "github"
     }
   }

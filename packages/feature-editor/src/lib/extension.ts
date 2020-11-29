@@ -1,14 +1,12 @@
-import * as path from 'path';
-import { ExtensionContext, FileSystemWatcher, workspace } from 'vscode';
+import { FileSystemWatcher, workspace } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 
 let client: LanguageClient;
 let fileEvents: FileSystemWatcher;
 
-export function activate(context: ExtensionContext): void {
-  const gherkinServer = context.asAbsolutePath(
-    path.join('node_modules', 'gherkin-language-server', 'lib', 'server.js')
-  );
+export function activate(): void {
+  const gherkinServer = `${require.resolve('gherkin-language-server')}/bin/server.js`;
+  // const gherkinServer = context.asAbsolutePath(path.join('..', 'gherkin-language-server', 'lib', 'server.js'));
   const debugOtions = { execArgv: ['--nolazy', '--inspect=6009'] };
   const serverOptions: ServerOptions = {
     run: { module: gherkinServer, transport: TransportKind.ipc },

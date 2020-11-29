@@ -1,9 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.spec.ts", "src/testing/**/*"],
+  "exclude": ["src/**/*.spec.ts", "src/testing/**/*.ts"],
   "compilerOptions": {
+    "composite": true,
     "rootDir": "src",
-    "outDir": "../../dist/feature-editor"
-  }
+    "outDir": "dist"
+  },
+  "references": [{ "path": "../gherkin-language-server" }]
 }

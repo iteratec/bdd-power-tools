@@ -10,9 +10,10 @@
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}/dist/feature-editor"],
-      "outFiles": ["${workspaceFolder}/dist/feature-editor/**/*.js"],
-      "preLaunchTask": { "type": "npm", "script": "watch" }
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/feature-editor"],
+      "outFiles": ["${workspaceFolder}/packages/feature-editor/dist/*.js"],
+      "sourceMaps": true,
+      "preLaunchTask": { "type": "npm", "script": "webpack:watch" }
     },
     {
       "name": "Attach to GherkinServer",
@@ -20,7 +21,7 @@
       "request": "attach",
       "port": 6009,
       "restart": true,
-      "outFiles": ["${workspaceFolder}/dist/gherkin-language-server/**/*.js"]
+      "outFiles": ["${workspaceFolder}/dist/gherkin-server/gherkin-server.js"]
     },
     {
       "type": "node",

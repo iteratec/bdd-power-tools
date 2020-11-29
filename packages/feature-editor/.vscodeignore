@@ -1,4 +1,9 @@
-.vscode/**
-.vscode-test/**
-.gitignore
+src
+tsconfig.json
+tsconfig.spec.json
 vsc-extension-quickstart.md
+webpack.config.js
+tsconfig.tsbuildinfo
+syntaxes/syntaxes.js
+node_modules
+!node_modules/gherkin-language-server

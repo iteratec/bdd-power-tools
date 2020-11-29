@@ -8,9 +8,12 @@
   "scripts": {
     "build": "tsc -b",
     "watch": "tsc -b -w",
-    "prewatch": "node packages/feature-editor/syntaxes/syntaxes.js && cp packages/feature-editor/language-configuration.json dist/feature-editor/ && cp packages/feature-editor/package.json dist/feature-editor/ && cp packages/gherkin-language-server/package.json dist/gherkin-language-server/",
+    "prewatch": "node packages/feature-editor/syntaxes/syntaxes.js && cp packages/feature-editor/language-configuration.json packages/feature-editor/dist/",
+    "version": "cp packages/feature-editor/package.json packages/feature-editor/dist/ && cp packages/gherkin-language-server/package.json packages/gherkin-language-server/dist/",
+    "postversion": "",
     "test": "jest",
-    "release": "lerna publish --yes"
+    "release": "lerna version --yes",
+    "deploy": "lerna publish --yes"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

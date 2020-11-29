@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src/lib/**/*.ts"],
-  "exclude": ["src/lib/**/*.spec.ts"],
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "src/testing/**/*.ts"],
   "compilerOptions": {
+    "composite": true,
     "rootDir": "src",
-    "outDir": "../../dist/gherkin-language-server"
+    "outDir": "dist"
   }
 }
